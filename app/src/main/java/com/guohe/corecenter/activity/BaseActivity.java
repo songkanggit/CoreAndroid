@@ -21,6 +21,7 @@ import com.guohe.corecenter.core.http.HttpService;
 import com.guohe.corecenter.core.logger.LoggerManager;
 import com.guohe.corecenter.core.logger.LoggerService;
 import com.guohe.corecenter.core.pereference.PreferencesManager;
+import com.gyf.immersionbar.ImmersionBar;
 import com.shanxiang.swipeback.SwipeBackActivityBase;
 import com.shanxiang.swipeback.SwipeBackActivityHelper;
 import com.shanxiang.swipeback.SwipeBackLayout;
@@ -50,6 +51,7 @@ public abstract class BaseActivity extends AppCompatActivity implements SwipeBac
     @Override
     protected void onCreate(@Nullable Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
+        ImmersionBar.with(this).statusBarColor(R.color.colorPrimary).statusBarDarkFont(true).fitsSystemWindows(true).init();
         mCoreContext = getCoreContext();
         mContext = getApplicationContext();
 
