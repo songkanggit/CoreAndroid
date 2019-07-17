@@ -10,4 +10,7 @@
     <string name="main_activity_title_0">关注</string>
     <string name="main_activity_title_1">推荐</string>
     <string name="main_activity_title_2">热搜</string>
+    <string name="main_second_choose_picture">选择照片</string>
+    <string name="main_second_camera_control">相机控制</string>
+    <string name="main_second_local_gallery">本地图库</string>
 </resources>
