@@ -27,6 +27,7 @@
     </FrameLayout>
 
     <LinearLayout
+        android:id="@+id/ll_control"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -67,4 +68,9 @@
                 android:text="@string/main_second_local_gallery"/>
         </LinearLayout>
     </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/ll_control"/>
 </android.support.constraint.ConstraintLayout>
