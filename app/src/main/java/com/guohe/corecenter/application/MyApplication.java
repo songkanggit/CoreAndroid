@@ -5,12 +5,11 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.HandlerThread;
 import android.os.Process;
-import android.support.annotation.NonNull;
-import android.support.multidex.MultiDex;
+import androidx.annotation.NonNull;
+import androidx.multidex.MultiDex;
 import android.util.SparseArray;
 
 import com.guohe.corecenter.BuildConfig;
-import com.meituan.android.walle.WalleChannelReader;
 import com.guohe.corecenter.core.CoreApplication;
 import com.guohe.corecenter.core.CoreContext;
 import com.guohe.corecenter.core.connection.NetworkManager;
@@ -59,8 +58,6 @@ public class MyApplication extends CoreApplication {
         if(!BuildConfig.DEBUG) {
             // [可选]设置是否打开debug输出，上线时请关闭，Logcat标签为"MtaSDK"
             //StatConfig.setDebugEnable(true);
-        } else {
-            channel = WalleChannelReader.getChannel(this.getApplicationContext());
         }
         // 基础统计API
 //        StatConfig.setInstallChannel(channel);

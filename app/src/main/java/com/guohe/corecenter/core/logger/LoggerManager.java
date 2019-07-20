@@ -8,8 +8,6 @@ import com.guohe.corecenter.core.BaseCoreManager;
 import com.guohe.corecenter.core.CoreContext;
 import com.guohe.corecenter.utils.FileUtil;
 
-import junit.framework.Assert;
-
 import org.apache.commons.io.FileUtils;
 import org.intellij.lang.annotations.MagicConstant;
 
@@ -53,7 +51,7 @@ public class LoggerManager extends BaseCoreManager implements LoggerService {
 
     public LoggerManager(CoreContext coreContext) {
         mCoreContext = coreContext;
-        Assert.assertEquals(LogLevel.class.getFields().length, LEVEL_TAG_ARR.length);
+//        Assert.assertEquals(LogLevel.class.getFields().length, LEVEL_TAG_ARR.length);
     }
 
     @Override

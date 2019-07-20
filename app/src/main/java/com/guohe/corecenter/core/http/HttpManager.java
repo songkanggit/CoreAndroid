@@ -1,6 +1,6 @@
 package com.guohe.corecenter.core.http;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.guohe.corecenter.core.BaseCoreManager;
 
