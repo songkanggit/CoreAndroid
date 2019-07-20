@@ -1,8 +1,11 @@
 package com.guohe.corecenter.activity;
 
-import android.support.annotation.LayoutRes;
+import androidx.annotation.LayoutRes;
+
+import android.Manifest;
+import android.app.AlertDialog;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,6 +21,14 @@ import com.gyf.immersionbar.ImmersionBar;
 import java.util.ArrayList;
 import java.util.List;
 
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnNeverAskAgain;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.OnShowRationale;
+import permissions.dispatcher.PermissionRequest;
+import permissions.dispatcher.RuntimePermissions;
+
+@RuntimePermissions
 public class MainActivity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentViewClickListener {
 
     private Button mGLButton, mGHButton, mShopButton, mMineButton;
@@ -25,6 +36,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private List<Fragment> mFragmentList;
 
     protected void parseNonNullBundle(Bundle bundle){}
+
+    @NeedsPermission({Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE})
     protected void initDataIgnoreUi() {
         mFragmentList = new ArrayList<>();
         mFragmentList.add(FirstFragment.newInstance());
@@ -47,6 +60,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
         mPlusIV = fvb(R.id.iv_plus);
     }
+
     protected void assembleViewClickAffairs(){
         mGLButton.setOnClickListener(this);
         mGHButton.setOnClickListener(this);
@@ -55,6 +69,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
         mPlusIV.setOnClickListener(this);
     }
+
     protected void initDataAfterUiAffairs(){
         setSwipeBackEnable(false);
         toggleFragment(0);
@@ -123,5 +138,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 getSupportFragmentManager().beginTransaction().hide(mFragmentList.get(i)).commit();
             }
         }
+    }
+
+    //Permission
+    @OnShowRationale({Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE})
+    void showRationaleForCamera(final PermissionRequest request) {
+        new AlertDialog.Builder(this)
+                .setMessage(R.string.main_permission_message)
+                .setPositiveButton(R.string.button_allow, (dialog, button) -> request.proceed())
+                .setNegativeButton(R.string.button_deny, (dialog, button) -> request.cancel())
+                .show();
+    }
+
+    @OnPermissionDenied({Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE})
+    void showDeniedForCamera() {
+//        Toast.makeText(this, R.string.permission_camera_denied, Toast.LENGTH_SHORT).show();
+    }
+
+    @OnNeverAskAgain({Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE})
+    void showNeverAskForCamera() {
+//        Toast.makeText(this, R.string.permission_camera_neverask, Toast.LENGTH_SHORT).show();
     }
 }
