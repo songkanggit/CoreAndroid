@@ -15,5 +15,5 @@
     <string name="main_second_choose_picture">选择照片</string>
     <string name="main_second_camera_control">相机控制</string>
     <string name="main_second_local_gallery">本地图库</string>
-    <string name="main_permission_message">允许读取和写入磁盘才可以使用完整功能</string>
+    <string name="main_rational_message">允许读取和写入磁盘才可以使用完整功能</string>
 </resources>

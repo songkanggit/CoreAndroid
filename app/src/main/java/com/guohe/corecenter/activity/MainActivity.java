@@ -3,14 +3,17 @@ package com.guohe.corecenter.activity;
 import androidx.annotation.LayoutRes;
 
 import android.Manifest;
-import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import com.guohe.corecenter.R;
+import com.guohe.corecenter.core.logger.Logger;
 import com.guohe.corecenter.fragment.BaseFragment;
 import com.guohe.corecenter.fragment.FirstFragment;
 import com.guohe.corecenter.fragment.ForthFragment;
@@ -21,15 +24,11 @@ import com.gyf.immersionbar.ImmersionBar;
 import java.util.ArrayList;
 import java.util.List;
 
-import permissions.dispatcher.NeedsPermission;
-import permissions.dispatcher.OnNeverAskAgain;
-import permissions.dispatcher.OnPermissionDenied;
-import permissions.dispatcher.OnShowRationale;
-import permissions.dispatcher.PermissionRequest;
-import permissions.dispatcher.RuntimePermissions;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 
-@RuntimePermissions
-public class MainActivity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentViewClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentViewClickListener, EasyPermissions.PermissionCallbacks,
+        EasyPermissions.RationaleCallbacks {
 
     private Button mGLButton, mGHButton, mShopButton, mMineButton;
     private ImageView mPlusIV;
@@ -37,8 +36,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     protected void parseNonNullBundle(Bundle bundle){}
 
-    @NeedsPermission({Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE})
     protected void initDataIgnoreUi() {
+        askPermissions();
         mFragmentList = new ArrayList<>();
         mFragmentList.add(FirstFragment.newInstance());
         mFragmentList.add(SecondFragment.newInstance());
@@ -86,7 +85,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             }
             case R.id.iv_scan: {
-
+                Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
+                startActivity(intent);
                 break;
             }
             case R.id.iv_group: {
@@ -140,23 +140,48 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
     }
 
-    //Permission
-    @OnShowRationale({Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE})
-    void showRationaleForCamera(final PermissionRequest request) {
-        new AlertDialog.Builder(this)
-                .setMessage(R.string.main_permission_message)
-                .setPositiveButton(R.string.button_allow, (dialog, button) -> request.proceed())
-                .setNegativeButton(R.string.button_deny, (dialog, button) -> request.cancel())
-                .show();
+    //Permissions Block
+    private static final String[] REQUIRED_PERMISSIONS =
+            {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
+    private static final int RC_RW_STORAGE_PERM = 124;
+
+    @AfterPermissionGranted(RC_RW_STORAGE_PERM)
+    private void askPermissions() {
+        if(hasRequiredPermissions()) {
+
+        } else {
+            EasyPermissions.requestPermissions(this, getString(R.string.main_rational_message), RC_RW_STORAGE_PERM, REQUIRED_PERMISSIONS);
+        }
     }
 
-    @OnPermissionDenied({Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE})
-    void showDeniedForCamera() {
-//        Toast.makeText(this, R.string.permission_camera_denied, Toast.LENGTH_SHORT).show();
+    private boolean hasRequiredPermissions() {
+        return EasyPermissions.hasPermissions(this, REQUIRED_PERMISSIONS);
     }
 
-    @OnNeverAskAgain({Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE})
-    void showNeverAskForCamera() {
-//        Toast.makeText(this, R.string.permission_camera_neverask, Toast.LENGTH_SHORT).show();
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        // EasyPermissions handles the request result.
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+        Logger.d(TAG, "onPermissionsGranted:" + requestCode + ":" + perms.size());
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+        Logger.d(TAG, "onPermissionsDenied:" + requestCode + ":" + perms.size());
+    }
+
+    @Override
+    public void onRationaleAccepted(int requestCode) {
+        Logger.d(TAG, "onRationaleAccepted:" + requestCode);
+    }
+
+    @Override
+    public void onRationaleDenied(int requestCode) {
+        Logger.d(TAG, "onRationaleDenied:" + requestCode);
     }
 }
