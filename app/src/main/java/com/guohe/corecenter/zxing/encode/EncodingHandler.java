@@ -16,8 +16,7 @@ import java.util.Hashtable;
 import java.util.Map;
 
 /**
- * @author Ryan Tang
- *
+ * @author songkang
  */
 public final class EncodingHandler {
     private static final int BLACK = 0xff000000;

@@ -16,6 +16,9 @@ import com.guohe.corecenter.core.connection.NetworkManager;
 import com.guohe.corecenter.core.http.HttpManager;
 import com.guohe.corecenter.core.logger.LoggerManager;
 import com.guohe.corecenter.core.pereference.PreferencesManager;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
+import com.lcodecore.tkrefreshlayout.footer.BallPulseView;
+import com.lcodecore.tkrefreshlayout.header.SinaRefreshView;
 import com.squareup.leakcanary.LeakCanary;
 
 import java.util.List;
@@ -62,6 +65,8 @@ public class MyApplication extends CoreApplication {
         // 基础统计API
 //        StatConfig.setInstallChannel(channel);
 //        StatService.registerActivityLifecycleCallbacks(this);
+        TwinklingRefreshLayout.setDefaultHeader(SinaRefreshView.class.getName());
+        TwinklingRefreshLayout.setDefaultFooter(BallPulseView.class.getName());
     }
 
     @Override

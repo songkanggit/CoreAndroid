@@ -126,11 +126,13 @@ public class CaptureActivity extends BaseActivity implements SurfaceHolder.Callb
 
     @Override
     protected void onDestroy() {
-        mInactivityTimer.shutdown();
-        mMediaPlayer.setOnCompletionListener(null);
-        mMediaPlayer.release();
-        mMediaPlayer = null;
         super.onDestroy();
+        mInactivityTimer.shutdown();
+        if(mMediaPlayer != null) {
+            mMediaPlayer.setOnCompletionListener(null);
+            mMediaPlayer.release();
+            mMediaPlayer = null;
+        }
     }
 
     /**

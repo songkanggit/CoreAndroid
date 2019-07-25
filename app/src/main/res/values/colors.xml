@@ -6,6 +6,7 @@
 
     <color name="colorTransparent">@android:color/transparent</color>
     <color name="colorGray">@android:color/darker_gray</color>
+    <color name="colorWhite">@android:color/white</color>
 
     <!-- QRCode scanner color begin -->
     <color name="viewfinder_mask">#60000000</color>
