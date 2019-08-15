@@ -1,4 +1,4 @@
-package com.guohe.corecenter.view;
+package com.guohe.corecenter.widget;
 
 import android.content.Context;
 import android.content.DialogInterface;

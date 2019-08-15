@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.guohe.corecenter.R;
+import com.gyf.immersionbar.ImmersionBar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,7 +64,7 @@ public class ForthFragment extends BaseFragment {
 
     @Override
     protected void setUpView() {
-
+        ImmersionBar.with(this).statusBarColor(R.color.colorTransparent).statusBarDarkFont(true).fitsSystemWindows(true).init();
     }
 
     @Override

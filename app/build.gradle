@@ -68,10 +68,22 @@ android {
             outputFileName = "${defaultConfig.applicationId}_${buildType.name}_V${defaultConfig.versionName}_${buildTime()}.apk"
         }
     }
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation(name: 'DVControl_V1.2.0-release', ext: 'aar')
+    implementation(name: 'ijkplayer-java-release', ext: 'aar')
+    implementation(name: 'ijkplayer-armv5-release', ext: 'aar')
+    implementation(name: 'ijkplayer-armv7a-release', ext: 'aar')
+    implementation(name: 'ijkplayer-arm64-release', ext: 'aar')
+
     implementation "androidx.appcompat:appcompat:${androidxVersion}"
     implementation "com.google.android.material:material:${androidxVersion}"
     implementation "androidx.legacy:legacy-support-v4:${androidxVersion}"

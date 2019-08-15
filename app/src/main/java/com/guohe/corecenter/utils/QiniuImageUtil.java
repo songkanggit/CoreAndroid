@@ -15,6 +15,12 @@ public class QiniuImageUtil {
         return "?imageView2/1/w/"+ width +"/h/"+ height +"/q/75|imageslim";
     }
 
+    public static final String getFixSizeSquareImageAppenderPixel(final Context context, int pixel) {
+        final int width = pixel;
+        final int height = pixel;
+        return "?imageView2/1/w/"+ width +"/h/"+ height +"/q/75|imageslim";
+    }
+
     public static final String getFixSizeRectImageAppender(final Context context, int wdip, int hdip) {
         final int width = DensityUtil.dip2px(context, wdip);
         final int height = DensityUtil.dip2px(context, hdip);

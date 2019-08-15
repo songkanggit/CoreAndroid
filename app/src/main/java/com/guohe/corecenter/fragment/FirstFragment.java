@@ -3,7 +3,6 @@ package com.guohe.corecenter.fragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
-import android.os.Bundle;
 import android.os.Handler;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -21,6 +20,7 @@ import com.guohe.corecenter.bean.Moment;
 import com.guohe.corecenter.constant.DomainConst;
 import com.guohe.corecenter.view.AvatarCircleView;
 import com.guohe.corecenter.view.CachedImageView;
+import com.gyf.immersionbar.ImmersionBar;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
@@ -128,6 +128,7 @@ public class FirstFragment extends BaseFragment {
 
     @Override
     protected void setUpView() {
+        ImmersionBar.with(this).statusBarColor(R.color.colorPrimary).statusBarDarkFont(true).fitsSystemWindows(true).init();
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -260,7 +261,7 @@ public class FirstFragment extends BaseFragment {
         }
     }
 
-    public static class MomentAdapter extends RecyclerView.Adapter<MomentViewHolder> {
+    private static class MomentAdapter extends RecyclerView.Adapter<MomentViewHolder> {
         private List<Moment> mMomentList;
         private Context mContext;
 
@@ -298,7 +299,7 @@ public class FirstFragment extends BaseFragment {
         }
     }
 
-    public static class MomentViewHolder extends RecyclerView.ViewHolder {
+    private static class MomentViewHolder extends RecyclerView.ViewHolder {
         CachedImageView posterIv;
         AvatarCircleView headImageIV;
         TextView nickNameTV, countTV, contentTV;
@@ -312,7 +313,7 @@ public class FirstFragment extends BaseFragment {
         }
     }
 
-    public static class SpaceItemDecoration extends RecyclerView.ItemDecoration {
+    private static class SpaceItemDecoration extends RecyclerView.ItemDecoration {
         private int space;
 
         public SpaceItemDecoration(int s) {
@@ -330,7 +331,6 @@ public class FirstFragment extends BaseFragment {
                 outRect.right = space;
             }
             outRect.bottom = space;
-
         }
     }
 }

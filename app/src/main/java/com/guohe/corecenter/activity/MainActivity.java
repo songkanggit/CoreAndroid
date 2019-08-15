@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.guohe.corecenter.R;
+import com.guohe.corecenter.constant.PermissionConst;
 import com.guohe.corecenter.core.logger.Logger;
 import com.guohe.corecenter.fragment.BaseFragment;
 import com.guohe.corecenter.fragment.FirstFragment;
@@ -50,8 +51,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @LayoutRes
     protected int getLayoutResourceId() { return R.layout.activity_main;}
     protected void viewAffairs() {
-        ImmersionBar.with(this).statusBarColor(R.color.colorPrimary).statusBarDarkFont(true).fitsSystemWindows(true).init();
-
         mGLButton = fvb(R.id.bt_gl);
         mGHButton = fvb(R.id.bt_gh);
         mShopButton = fvb(R.id.bt_shop);
@@ -91,6 +90,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             }
             case R.id.iv_group: {
 
+                break;
+            }
+            case R.id.ll_control_camera: {
+                Intent intent = new Intent(MainActivity.this, DeviceControlActivity.class);
+                startActivity(intent);
                 break;
             }
         }
@@ -142,15 +146,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     //Permissions Block
     private static final String[] REQUIRED_PERMISSIONS =
-            {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
-    private static final int RC_RW_STORAGE_PERM = 124;
+            {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION};
 
-    @AfterPermissionGranted(RC_RW_STORAGE_PERM)
+    @AfterPermissionGranted(PermissionConst.STORAGE_PERMISSION)
     private void askPermissions() {
-        if(hasRequiredPermissions()) {
-
-        } else {
-            EasyPermissions.requestPermissions(this, getString(R.string.main_rational_message), RC_RW_STORAGE_PERM, REQUIRED_PERMISSIONS);
+        if(!hasRequiredPermissions()) {
+            EasyPermissions.requestPermissions(this, getString(R.string.main_rational_message), PermissionConst.STORAGE_PERMISSION, REQUIRED_PERMISSIONS);
         }
     }
 
@@ -161,7 +162,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        // EasyPermissions handles the request result.
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
