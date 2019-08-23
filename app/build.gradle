@@ -2,6 +2,8 @@ import java.text.SimpleDateFormat
 
 apply plugin: 'com.android.application'
 
+apply plugin: 'com.mob.sdk'
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -16,10 +18,10 @@ android {
 
     signingConfigs {
         defaultSignature {
-            keyAlias 'linklive'
-            keyPassword 'linklive'
-            storeFile file('../keystore/linklive.keystore')
-            storePassword 'linklive'
+            keyAlias 'corecenter'
+            keyPassword 'corecenter'
+            storeFile file('../keystore/corecenter.keystore')
+            storePassword 'corecenter'
         }
     }
 
@@ -107,6 +109,8 @@ dependencies {
     implementation 'pub.devrel:easypermissions:3.0.0'
     implementation 'androidx.appcompat:appcompat:1.0.2'
 
+//    implementation 'com.mob.sdk:MobSDK:+'
+
     implementation 'com.jakewharton:butterknife:8.0.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.0.0'
 
@@ -119,6 +123,14 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
 
     implementation project(':swipeback')
+}
+
+MobSDK {
+    appKey "2c183ee27d440"
+    appSecret "5624f5948d4bd48332fe9704dc040765"
+    SMSSDK {
+        version "3.2.1"
+    }
 }
 
 static def buildTime() {
