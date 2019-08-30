@@ -33,7 +33,7 @@ public class CountDownTimerUtils extends CountDownTimer {
         if(textView != null) {
             textView.setClickable(false); //设置不可点击
             textView.setText(millisUntilFinished / 1000 + "s");  //设置倒计时时间
-            textView.setTextColor(Color.parseColor("#cccccc"));
+            textView.setTextColor(Color.parseColor("#ffffff"));
             /**
              * 超链接 URLSpan
              * 文字背景颜色 BackgroundColorSpan
@@ -63,7 +63,7 @@ public class CountDownTimerUtils extends CountDownTimer {
         if(textView != null) {
             textView.setText("重新获取验证码");
             textView.setClickable(true);//重新获得点击
-            textView.setTextColor(Color.parseColor("#fda414"));
+            textView.setTextColor(Color.parseColor("#ffffff"));
         }
     }
 }

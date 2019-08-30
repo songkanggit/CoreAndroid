@@ -21,6 +21,7 @@ import com.guohe.corecenter.core.http.HttpService;
 import com.guohe.corecenter.core.logger.LoggerManager;
 import com.guohe.corecenter.core.logger.LoggerService;
 import com.guohe.corecenter.core.pereference.PreferencesManager;
+import com.guohe.corecenter.utils.NetworkUtil;
 import com.shanxiang.swipeback.SwipeBackActivityBase;
 import com.shanxiang.swipeback.SwipeBackActivityHelper;
 import com.shanxiang.swipeback.SwipeBackLayout;
@@ -81,23 +82,10 @@ public abstract class BaseActivity extends AppCompatActivity implements SwipeBac
         initDataAfterUiAffairs();
     }
 
-    protected CoreContext getCoreContext(){
-        return ((CoreApplication) getApplication()).getCoreContext();
-    }
-
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         mHelper.onPostCreate();
-    }
-
-    protected void parseIntent(Intent intent){
-        if(intent == null) return;
-
-        Bundle bundle = intent.getExtras();
-        if(bundle != null) {
-            parseNonNullBundle(bundle);
-        }
     }
 
     @Override
@@ -120,6 +108,23 @@ public abstract class BaseActivity extends AppCompatActivity implements SwipeBac
     public void scrollToFinishActivity() {
         Utils.convertActivityToTranslucent(this);
         getSwipeBackLayout().scrollToFinishActivity();
+    }
+
+    protected void parseIntent(Intent intent){
+        if(intent == null) return;
+
+        Bundle bundle = intent.getExtras();
+        if(bundle != null) {
+            parseNonNullBundle(bundle);
+        }
+    }
+
+    protected CoreContext getCoreContext(){
+        return ((CoreApplication) getApplication()).getCoreContext();
+    }
+
+    protected boolean isNetworkAvailable() {
+        return NetworkUtil.isNetworkConnected(getApplicationContext());
     }
 
     protected <V extends View> V fvb(@IdRes int id){

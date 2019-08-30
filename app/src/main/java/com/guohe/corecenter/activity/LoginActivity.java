@@ -13,7 +13,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.guohe.corecenter.R;
+import com.guohe.corecenter.bean.HttpResponse;
+import com.guohe.corecenter.bean.RequestParam;
+import com.guohe.corecenter.constant.UrlConst;
+import com.guohe.corecenter.utils.CountDownTimerUtils;
+import com.guohe.corecenter.utils.JacksonUtil;
 import com.guohe.corecenter.utils.MobileUtil;
+
+import java.io.IOException;
+import java.util.Date;
 
 import cn.smssdk.EventHandler;
 import cn.smssdk.OnSendMessageHandler;
@@ -44,12 +52,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 } else if (event1 == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
                     if (result1 == SMSSDK.RESULT_COMPLETE) {
                         Toast.makeText(getApplicationContext(), "验证码正确", Toast.LENGTH_SHORT).show();
+                        finish();
                     } else {
                         Toast.makeText(getApplicationContext(), "验证码错误", Toast.LENGTH_SHORT).show();
                         ((Throwable) data1).printStackTrace();
                     }
                 }
-                // TODO 其他接口的返回结果也类似，根据event判断当前数据属于哪个接口
                 return false;
             }).sendMessage(msg);
         }
@@ -83,6 +91,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             case R.id.tv_get_code: {
                 final String telephone = mTelephoneET.getText().toString().trim();
                 if(MobileUtil.isMobileNO(telephone)) {
+                    CountDownTimerUtils timerUtils = new CountDownTimerUtils(mSendCodeTV, 30000, 1000);
+                    timerUtils.start();
                     SMSSDK.getVerificationCode("86", telephone, "6977542", new OnSendMessageHandler() {
                         @Override
                         public boolean onSendMessage(String s, String s1) {
@@ -98,7 +108,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 final String telephone = mTelephoneET.getText().toString().trim();
                 final String code = mCodeET.getText().toString().trim();
                 if(!TextUtils.isEmpty(telephone) && !TextUtils.isEmpty(code)) {
-                    SMSSDK.submitVerificationCode("86", telephone, code);
+                    loginRequest(telephone, code);
+//                    SMSSDK.submitVerificationCode("86", telephone, code);
                 } else {
                     Toast.makeText(getApplicationContext(), "验证码为空", Toast.LENGTH_SHORT).show();
                 }
@@ -111,5 +122,30 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     protected void onDestroy() {
         super.onDestroy();
         SMSSDK.unregisterEventHandler(mEventHandler);
+    }
+
+    private void loginRequest(final String telephone, final String code) {
+        if(isNetworkAvailable()) {
+            RequestParam requestParam = RequestParam.newInstance(mPreferencesManager);
+            requestParam.addAttribute("telephone", telephone);
+            requestParam.addAttribute("code", code);
+            mCoreContext.executeAsyncTask(() -> {
+                try {
+                    HttpResponse response = JacksonUtil.readValue(mHttpService.post(UrlConst.LOGIN_URL, requestParam.toString()), HttpResponse.class);
+                    if(response.isSuccess()) {
+                        mPreferencesManager.put("AccessToken", response.getAccessToken());
+                        mPreferencesManager.put("UserInfo", response.getData());
+                        mPreferencesManager.put("LoginTime", new Date());
+                        finish();
+                    } else {
+                        Toast.makeText(getApplicationContext(), response.getMsg(), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+        } else {
+            Toast.makeText(getApplicationContext(), R.string.network_disable, Toast.LENGTH_SHORT).show();
+        }
     }
 }

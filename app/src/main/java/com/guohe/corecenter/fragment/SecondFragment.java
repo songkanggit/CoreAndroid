@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.guohe.corecenter.R;
 import com.guohe.corecenter.constant.DomainConst;
+import com.guohe.corecenter.constant.UrlConst;
 import com.guohe.corecenter.core.logger.Logger;
 import com.guohe.corecenter.view.CachedImageView;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
@@ -106,22 +107,22 @@ public class SecondFragment extends BaseFragment {
         mDataHashMap = new HashMap<>();
         List<String> imageList = new ArrayList<>();
         for(int i=0; i<4; i++) {
-            imageList.add(DomainConst.PICTURE_DOMAIN + "/ImageCache/7388c0adac804730af1b29edd47ece5d.jpg");
-            imageList.add(DomainConst.PICTURE_DOMAIN + "/ImageCache/847e5463ea964628a20115c67720c0a4.png");
-            imageList.add(DomainConst.PICTURE_DOMAIN + "/ImageCache/36ea89121dd54ff3a3a3a2b234b18cda.png");
-            imageList.add(DomainConst.PICTURE_DOMAIN + "/ImageCache/83012006574c4c46b522c775a12d7536.png");
-            imageList.add(DomainConst.PICTURE_DOMAIN + "/ImageCache/1a8ea3d5a00245d5ba1dbd642f46ccd3.png");
+            imageList.add(UrlConst.PICTURE_DOMAIN + "/ImageCache/7388c0adac804730af1b29edd47ece5d.jpg");
+            imageList.add(UrlConst.PICTURE_DOMAIN + "/ImageCache/847e5463ea964628a20115c67720c0a4.png");
+            imageList.add(UrlConst.PICTURE_DOMAIN + "/ImageCache/36ea89121dd54ff3a3a3a2b234b18cda.png");
+            imageList.add(UrlConst.PICTURE_DOMAIN + "/ImageCache/83012006574c4c46b522c775a12d7536.png");
+            imageList.add(UrlConst.PICTURE_DOMAIN + "/ImageCache/1a8ea3d5a00245d5ba1dbd642f46ccd3.png");
         }
         mDataHashMap.put("2019年8月7日", imageList);
         imageList = new ArrayList<>();
         for(int i=0; i<2; i++) {
-            imageList.add(DomainConst.PICTURE_DOMAIN + "/ImageCache/1a8ea3d5a00245d5ba1dbd642f46ccd3.png");
-            imageList.add(DomainConst.PICTURE_DOMAIN + "/ImageCache/759d94c9242440f68885ec274d2d5887.png");
-            imageList.add(DomainConst.PICTURE_DOMAIN + "/ImageCache/f3c4bcdd0e074e31b8c0e8ff3c31f9bf.png");
-            imageList.add(DomainConst.PICTURE_DOMAIN + "/ImageCache/7388c0adac804730af1b29edd47ece5d.jpg");
-            imageList.add(DomainConst.PICTURE_DOMAIN + "/ImageCache/847e5463ea964628a20115c67720c0a4.png");
-            imageList.add(DomainConst.PICTURE_DOMAIN + "/ImageCache/36ea89121dd54ff3a3a3a2b234b18cda.png");
-            imageList.add(DomainConst.PICTURE_DOMAIN + "/ImageCache/83012006574c4c46b522c775a12d7536.png");
+            imageList.add(UrlConst.PICTURE_DOMAIN + "/ImageCache/1a8ea3d5a00245d5ba1dbd642f46ccd3.png");
+            imageList.add(UrlConst.PICTURE_DOMAIN + "/ImageCache/759d94c9242440f68885ec274d2d5887.png");
+            imageList.add(UrlConst.PICTURE_DOMAIN + "/ImageCache/f3c4bcdd0e074e31b8c0e8ff3c31f9bf.png");
+            imageList.add(UrlConst.PICTURE_DOMAIN + "/ImageCache/7388c0adac804730af1b29edd47ece5d.jpg");
+            imageList.add(UrlConst.PICTURE_DOMAIN + "/ImageCache/847e5463ea964628a20115c67720c0a4.png");
+            imageList.add(UrlConst.PICTURE_DOMAIN + "/ImageCache/36ea89121dd54ff3a3a3a2b234b18cda.png");
+            imageList.add(UrlConst.PICTURE_DOMAIN + "/ImageCache/83012006574c4c46b522c775a12d7536.png");
         }
         mDataHashMap.put("2019年8月9日", imageList);
     }

@@ -4,9 +4,13 @@ import android.content.Context;
 import android.os.Bundle;
 
 import android.view.View;
+import android.widget.ImageView;
 
 import com.guohe.corecenter.R;
 import com.gyf.immersionbar.ImmersionBar;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +29,8 @@ public class ForthFragment extends BaseFragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    @BindView(R.id.iv_setting)
+    ImageView mSettingIV;
 
     private OnFragmentViewClickListener mListener;
 
@@ -72,6 +78,7 @@ public class ForthFragment extends BaseFragment {
 
     }
 
+    @OnClick(R.id.iv_setting)
     public void onButtonPressed(View view) {
         if (mListener != null) {
             mListener.onFragmentInteraction(view);

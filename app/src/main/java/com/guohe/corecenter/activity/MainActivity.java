@@ -8,6 +8,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -20,7 +22,6 @@ import com.guohe.corecenter.fragment.FirstFragment;
 import com.guohe.corecenter.fragment.ForthFragment;
 import com.guohe.corecenter.fragment.SecondFragment;
 import com.guohe.corecenter.fragment.ThirdFragment;
-import com.gyf.immersionbar.ImmersionBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,17 +85,31 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             }
             case R.id.iv_scan: {
-                Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
-                startActivity(intent);
+                if(!loginInterception()) {
+                    Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
+                    startActivity(intent);
+                }
                 break;
             }
             case R.id.iv_group: {
-
+                if(!loginInterception()) {
+                    Intent intent = new Intent(MainActivity.this, FamilyActivity.class);
+                    startActivity(intent);
+                }
                 break;
             }
             case R.id.ll_control_camera: {
-                Intent intent = new Intent(MainActivity.this, DeviceControlActivity.class);
-                startActivity(intent);
+                if(!loginInterception()) {
+                    Intent intent = new Intent(MainActivity.this, DeviceControlActivity.class);
+                    startActivity(intent);
+                }
+                break;
+            }
+            case R.id.iv_setting: {
+                if(!loginInterception()) {
+                    Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                    startActivity(intent);
+                }
                 break;
             }
         }
@@ -142,6 +157,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 getSupportFragmentManager().beginTransaction().hide(mFragmentList.get(i)).commit();
             }
         }
+    }
+
+    private boolean loginInterception() {
+        final String accessToken = mPreferencesManager.get("AccessToken", "");
+        if(TextUtils.isEmpty(accessToken)) {
+           Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+           startActivity(intent);
+           return true;
+        }
+        return false;
     }
 
     //Permissions Block

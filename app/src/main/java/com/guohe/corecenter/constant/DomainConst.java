@@ -11,6 +11,4 @@ public class DomainConst {
     public static final String TIME_FORMAT_LOG_MSG_START_APPEND = "MM-dd HH:mm:ss";
     public static final String LOG_PARENT_PATH = "AndroidFlex/";
     public static final long LOG_DIR_SIZE_LIMIT = 50 * 1024 * 1024;
-
-    public static final String PICTURE_DOMAIN = "http://img.guostory.com/";
 }

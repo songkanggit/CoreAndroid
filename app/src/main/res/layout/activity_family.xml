@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.FamilyActivity">
+    <include layout="@layout/common_toolbar"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/family_image1">
+        <TextView
+            android:id="@+id/tv_family_create"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/colorWhite"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:text="创建家庭"
+            android:gravity="center"
+            android:layout_marginBottom="50dp"
+            android:background="@drawable/text_view_bg_family_in"
+            android:foreground="?attr/selectableItemBackground"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="17sp"
+            android:textColor="@color/colorWhite"
+            android:text="您还没有加入一个家庭"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@id/tv_family_create"
+            android:layout_marginBottom="20dp"/>
+    </RelativeLayout>
+</LinearLayout>
