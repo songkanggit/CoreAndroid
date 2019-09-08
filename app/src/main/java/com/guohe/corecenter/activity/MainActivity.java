@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.guohe.corecenter.R;
 import com.guohe.corecenter.constant.PermissionConst;
@@ -22,8 +23,11 @@ import com.guohe.corecenter.fragment.FirstFragment;
 import com.guohe.corecenter.fragment.ForthFragment;
 import com.guohe.corecenter.fragment.SecondFragment;
 import com.guohe.corecenter.fragment.ThirdFragment;
+import com.guohe.corecenter.utils.DateTimeUtil;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
@@ -160,13 +164,26 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     private boolean loginInterception() {
+
         final String accessToken = mPreferencesManager.get("AccessToken", "");
-        if(TextUtils.isEmpty(accessToken)) {
-           Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-           startActivity(intent);
-           return true;
+        if(!TextUtils.isEmpty(accessToken)) {
+            final String loginTime = mPreferencesManager.get("LoginTime", "");
+            if(!TextUtils.isEmpty(loginTime)) {
+                try {
+                    Date validDate = DateTimeUtil.YYYY_MM_DD_HH_MM_SS.parse(loginTime);
+                    if(validDate.after(new Date())) {
+                        return false;
+                    } else {
+                        Toast.makeText(getApplicationContext(), "登陆已过期过期", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-        return false;
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(intent);
+        return true;
     }
 
     //Permissions Block

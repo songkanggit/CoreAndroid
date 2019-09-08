@@ -6,5 +6,5 @@ public class UrlConst {
 
     public static final String PICTURE_DOMAIN = "http://img.guostory.com/";
 
-    public static final String LOGIN_URL = DOMAIN + "account/mobLogin.do";
+    public static final String LOGIN_URL = DOMAIN + "account/mobile/mobLogin.do";
 }

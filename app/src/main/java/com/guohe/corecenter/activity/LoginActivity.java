@@ -17,6 +17,7 @@ import com.guohe.corecenter.bean.HttpResponse;
 import com.guohe.corecenter.bean.RequestParam;
 import com.guohe.corecenter.constant.UrlConst;
 import com.guohe.corecenter.utils.CountDownTimerUtils;
+import com.guohe.corecenter.utils.DateTimeUtil;
 import com.guohe.corecenter.utils.JacksonUtil;
 import com.guohe.corecenter.utils.MobileUtil;
 
@@ -128,17 +129,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         if(isNetworkAvailable()) {
             RequestParam requestParam = RequestParam.newInstance(mPreferencesManager);
             requestParam.addAttribute("telephone", telephone);
-            requestParam.addAttribute("code", code);
+            requestParam.addAttribute("passCode", code);
             mCoreContext.executeAsyncTask(() -> {
                 try {
                     HttpResponse response = JacksonUtil.readValue(mHttpService.post(UrlConst.LOGIN_URL, requestParam.toString()), HttpResponse.class);
                     if(response.isSuccess()) {
                         mPreferencesManager.put("AccessToken", response.getAccessToken());
                         mPreferencesManager.put("UserInfo", response.getData());
-                        mPreferencesManager.put("LoginTime", new Date());
+                        Date validDate = DateTimeUtil.addDays(new Date(), 7);
+                        mPreferencesManager.put("LoginTime", DateTimeUtil.YYYY_MM_DD_HH_MM_SS.format(validDate));
                         finish();
                     } else {
-                        Toast.makeText(getApplicationContext(), response.getMsg(), Toast.LENGTH_SHORT).show();
+                        runOnUiThread(() -> Toast.makeText(getApplicationContext(), response.getMsg(), Toast.LENGTH_SHORT).show());
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

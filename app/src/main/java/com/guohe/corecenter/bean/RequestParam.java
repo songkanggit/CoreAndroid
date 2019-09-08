@@ -13,6 +13,7 @@ public class RequestParam {
     public static RequestParam newInstance(PreferencesManager manager) {
         RequestParam requestParam = new RequestParam();
         try {
+            requestParam.param = new JSONObject();
             requestParam.param.put("UserInfo", manager.get("UserInfo", null));
         } catch (JSONException e) {
             e.printStackTrace();
