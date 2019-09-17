@@ -102,18 +102,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 }
                 break;
             }
-            case R.id.ll_control_camera: {
-                if(!loginInterception()) {
-                    Intent intent = new Intent(MainActivity.this, DeviceControlActivity.class);
-                    startActivity(intent);
-                }
-                break;
-            }
             case R.id.iv_setting: {
                 if(!loginInterception()) {
                     Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                     startActivity(intent);
                 }
+                break;
+            }
+            case R.id.tv_bind: {
+                Intent intent = new Intent(MainActivity.this, DeviceActivity.class);
+                startActivity(intent);
+                break;
+            }
+            case R.id.tv_shop: {
                 break;
             }
         }

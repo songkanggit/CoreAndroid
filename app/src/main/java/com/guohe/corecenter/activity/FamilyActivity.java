@@ -1,7 +1,6 @@
 package com.guohe.corecenter.activity;
 
 import androidx.annotation.LayoutRes;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;

@@ -7,9 +7,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.LayoutRes;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.PreferenceFragmentCompat;
 
 import com.guohe.corecenter.R;
 

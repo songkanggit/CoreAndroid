@@ -13,8 +13,8 @@
         android:background="@mipmap/family_image1">
         <TextView
             android:id="@+id/tv_family_create"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="291dp"
+            android:layout_height="54dp"
             android:textSize="18sp"
             android:textColor="@color/colorWhite"
             android:layout_alignParentBottom="true"
@@ -22,7 +22,7 @@
             android:text="创建家庭"
             android:gravity="center"
             android:layout_marginBottom="50dp"
-            android:background="@drawable/text_view_bg_family_in"
+            android:background="@drawable/text_view_bg_ff9196"
             android:foreground="?attr/selectableItemBackground"/>
         <TextView
             android:layout_width="wrap_content"
