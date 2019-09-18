@@ -12,8 +12,9 @@
         android:background="#ab938e">
         <ImageView
             android:id="@+id/iv_setting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="center"
             android:src="@mipmap/settings_icn"
             android:layout_marginTop="15dp"
             android:layout_marginRight="15dp"
@@ -25,7 +26,8 @@
             android:layout_height="66dp"
             android:src="@mipmap/ic_launcher"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="45dp"/>
+            android:layout_marginTop="45dp"
+            android:background="?attr/selectableItemBackground"/>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

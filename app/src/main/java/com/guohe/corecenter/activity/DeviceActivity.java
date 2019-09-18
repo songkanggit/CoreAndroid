@@ -172,6 +172,8 @@ public class DeviceActivity extends BaseActivity implements View.OnClickListener
                 break;
             }
             case R.id.toolbar_menu: {
+                Intent intent = new Intent(DeviceActivity.this, DeviceInfoActivity.class);
+                startActivity(intent);
                 break;
             }
         }

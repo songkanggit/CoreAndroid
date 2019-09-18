@@ -9,14 +9,14 @@ import android.widget.TextView;
 
 import com.guohe.corecenter.R;
 
-public class PersonInfoActivity extends BaseActivity implements View.OnClickListener {
+public class DeviceInfoActivity extends BaseActivity implements View.OnClickListener {
     private LinearLayout mBackLL;
     private TextView mTitleTV;
 
     protected void parseNonNullBundle(Bundle bundle){}
     protected void initDataIgnoreUi() {}
     @LayoutRes
-    protected int getLayoutResourceId() { return R.layout.activity_person_info;}
+    protected int getLayoutResourceId() { return R.layout.activity_device_info;}
     protected void viewAffairs(){
         mBackLL = fvb(R.id.ll_back);
         mTitleTV = fvb(R.id.toolbar_title);
@@ -25,7 +25,7 @@ public class PersonInfoActivity extends BaseActivity implements View.OnClickList
         mBackLL.setOnClickListener(this::onClick);
     }
     protected void initDataAfterUiAffairs(){
-        mTitleTV.setText("请完善信息");
+        mTitleTV.setText("设备信息");
     }
 
     @Override

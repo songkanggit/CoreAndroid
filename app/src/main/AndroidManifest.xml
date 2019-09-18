@@ -26,10 +26,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.DeviceActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".activity.PersonInfoActivity"
-            android:launchMode="singleTop"/>
+        <activity android:name=".activity.AccountDetailActivity"></activity>
+        <activity
+            android:name=".activity.DeviceInfoActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.DeviceActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.PersonInfoActivity"
+            android:launchMode="singleTop" />
         <activity
             android:name=".activity.SettingsActivity"
             android:label="@string/title_activity_settings" />

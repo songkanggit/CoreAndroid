@@ -35,6 +35,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentViewClickListener, EasyPermissions.PermissionCallbacks,
         EasyPermissions.RationaleCallbacks {
+    private static final boolean isNeedLogin = false;
 
     private Button mGLButton, mGHButton, mShopButton, mMineButton;
     private ImageView mPlusIV;
@@ -109,6 +110,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 }
                 break;
             }
+            case R.id.iv_head_image: {
+                if(!loginInterception()) {
+                    Intent intent = new Intent(MainActivity.this, AccountDetailActivity.class);
+                    startActivity(intent);
+                }
+                break;
+            }
             case R.id.tv_bind: {
                 Intent intent = new Intent(MainActivity.this, DeviceActivity.class);
                 startActivity(intent);
@@ -165,7 +173,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     private boolean loginInterception() {
-
+        if(!isNeedLogin) {
+            return false;
+        }
         final String accessToken = mPreferencesManager.get("AccessToken", "");
         if(!TextUtils.isEmpty(accessToken)) {
             final String loginTime = mPreferencesManager.get("LoginTime", "");

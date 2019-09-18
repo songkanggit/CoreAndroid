@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.guohe.corecenter.R;
+import com.guohe.corecenter.view.AvatarCircleView;
 import com.gyf.immersionbar.ImmersionBar;
 
 import butterknife.BindView;
@@ -31,6 +32,8 @@ public class ForthFragment extends BaseFragment {
     private String mParam2;
     @BindView(R.id.iv_setting)
     ImageView mSettingIV;
+    @BindView(R.id.iv_head_image)
+    AvatarCircleView avatarCircleView;
 
     private OnFragmentViewClickListener mListener;
 
@@ -78,7 +81,7 @@ public class ForthFragment extends BaseFragment {
 
     }
 
-    @OnClick(R.id.iv_setting)
+    @OnClick({R.id.iv_setting, R.id.iv_head_image})
     public void onButtonPressed(View view) {
         if (mListener != null) {
             mListener.onFragmentInteraction(view);
