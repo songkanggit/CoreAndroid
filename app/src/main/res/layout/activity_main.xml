@@ -28,14 +28,25 @@
             style="@style/BottomButtonStyle"
             android:drawableTop="@mipmap/guohe"
             android:text="@string/main_activity_bar_second"/>
-        <ImageView
-            android:id="@+id/iv_plus"
+        <FrameLayout
             android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:scaleType="center"
-            android:contentDescription="@string/main_second_local_gallery"
-            android:src="@mipmap/add_icn"
-            android:background="?attr/selectableItemBackground"/>
+            android:layout_height="50dp">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:src="@mipmap/add_icn_bg"/>
+            <ImageView
+                android:id="@+id/iv_plus"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="5dp"
+                android:scaleType="center"
+                android:layout_gravity="center"
+                android:contentDescription="@string/main_second_local_gallery"
+                android:src="@mipmap/add_icn"
+                android:background="?attr/selectableItemBackground"/>
+        </FrameLayout>
         <Button
             android:id="@+id/bt_shop"
             style="@style/BottomButtonStyle"

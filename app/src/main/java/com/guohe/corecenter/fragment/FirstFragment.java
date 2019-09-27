@@ -1,6 +1,7 @@
 package com.guohe.corecenter.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Handler;
@@ -16,8 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.guohe.corecenter.R;
+import com.guohe.corecenter.activity.MomentDetailActivity;
 import com.guohe.corecenter.bean.Moment;
-import com.guohe.corecenter.constant.DomainConst;
 import com.guohe.corecenter.constant.UrlConst;
 import com.guohe.corecenter.view.AvatarCircleView;
 import com.guohe.corecenter.view.CachedImageView;
@@ -137,7 +138,7 @@ public class FirstFragment extends BaseFragment {
 
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mStaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        mRecyclerView.setAdapter(mMomentAdapter = new MomentAdapter(getContext()));
+        mRecyclerView.setAdapter(mMomentAdapter = new MomentAdapter(getActivity()));
         mRecyclerView.addItemDecoration(new SpaceItemDecoration(30));
         mMomentAdapter.setData(mMomentList);
 
@@ -292,6 +293,13 @@ public class FirstFragment extends BaseFragment {
             holder.headImageIV.setImageUrl(moment.getAccountImageUrl());
             holder.nickNameTV.setText(moment.getAccountNickName());
             holder.countTV.setText(moment.getFavorite());
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext, MomentDetailActivity.class);
+                    mContext.startActivity(intent);
+                }
+            });
         }
 
         @Override
