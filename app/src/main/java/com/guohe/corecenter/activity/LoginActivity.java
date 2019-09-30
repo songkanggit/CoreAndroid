@@ -109,7 +109,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 final String telephone = mTelephoneET.getText().toString().trim();
                 final String code = mCodeET.getText().toString().trim();
                 if(!TextUtils.isEmpty(telephone) && !TextUtils.isEmpty(code)) {
-                    loginRequest(telephone, code);
+                    finish();
+//                    loginRequest(telephone, code);
 //                    SMSSDK.submitVerificationCode("86", telephone, code);
                 } else {
                     Toast.makeText(getApplicationContext(), "验证码为空", Toast.LENGTH_SHORT).show();

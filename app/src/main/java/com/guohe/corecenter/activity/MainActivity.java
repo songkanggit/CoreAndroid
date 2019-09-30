@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.guohe.corecenter.R;
@@ -38,7 +38,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private static final boolean isNeedLogin = false;
 
     private Button mGLButton, mGHButton, mShopButton, mMineButton;
-    private ImageView mPlusIV;
+    private FrameLayout mPublishFL;
     private List<Fragment> mFragmentList;
 
     protected void parseNonNullBundle(Bundle bundle){}
@@ -61,17 +61,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mGHButton = fvb(R.id.bt_gh);
         mShopButton = fvb(R.id.bt_shop);
         mMineButton = fvb(R.id.bt_mine);
-
-        mPlusIV = fvb(R.id.iv_plus);
+        mPublishFL = fvb(R.id.fl_publish);
     }
 
     protected void assembleViewClickAffairs(){
-        mGLButton.setOnClickListener(this);
-        mGHButton.setOnClickListener(this);
-        mShopButton.setOnClickListener(this);
-        mMineButton.setOnClickListener(this);
-
-        mPlusIV.setOnClickListener(this);
+        mGLButton.setOnClickListener(this::onClick);
+        mGHButton.setOnClickListener(this::onClick);
+        mShopButton.setOnClickListener(this::onClick);
+        mMineButton.setOnClickListener(this::onClick);
+        mPublishFL.setOnClickListener(this::onClick);
     }
 
     protected void initDataAfterUiAffairs(){
@@ -122,7 +120,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 startActivity(intent);
                 break;
             }
+            case R.id.fl_publish: {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                break;
+            }
             case R.id.tv_shop: {
+                break;
+            }
+            case R.id.ll_sunshine: {
+                Intent intent = new Intent(MainActivity.this, AboutSunshineActivity.class);
+                startActivity(intent);
+                break;
+            }
+            case R.id.ll_follower: {
+                break;
+            }
+            case R.id.ll_favorite: {
                 break;
             }
         }

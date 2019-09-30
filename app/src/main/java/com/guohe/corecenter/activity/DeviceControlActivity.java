@@ -16,6 +16,9 @@ import android.os.SystemClock;
 import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.guohe.corecenter.R;
@@ -44,6 +47,10 @@ public class DeviceControlActivity extends BaseActivity implements OnNotifyListe
     private static final int MSG_HEART_BEAT_FAILED = 10;
     private static final int MSG_DEVICE_DISCONNECTED = 11;
     private static final int MSG_WIFI_DISCONNECTED = 12;
+
+    private LinearLayout mBackLL;
+    private TextView mTitleTV;
+    private ImageView mSwitchIV, mCaptureIV;
 
     private DeviceClient mDeviceClient;
     private RealtimeStream mRealTimeStream;
@@ -111,9 +118,16 @@ public class DeviceControlActivity extends BaseActivity implements OnNotifyListe
     protected void viewAffairs(){
         ImmersionBar.with(this).statusBarColor(R.color.colorPrimary).statusBarDarkFont(true).fitsSystemWindows(true).init();
         mVideoView = fvb(R.id.video_view);
+        mBackLL = fvb(R.id.ll_back);
+        mTitleTV = fvb(R.id.toolbar_title);
+        mSwitchIV = fvb(R.id.iv_switch);
+        mCaptureIV = fvb(R.id.iv_capture);
     }
     protected void assembleViewClickAffairs(){
 //        mBeginTV.setOnClickListener(this::onClick);
+        mBackLL.setOnClickListener(this::onClick);
+        mSwitchIV.setOnClickListener(this::onClick);
+        mCaptureIV.setOnClickListener(this::onClick);
     }
     protected void initDataAfterUiAffairs(){
         mIntentFilter = new IntentFilter();
@@ -126,7 +140,20 @@ public class DeviceControlActivity extends BaseActivity implements OnNotifyListe
 
     @Override
     public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.ll_back: {
+                finish();
+                break;
+            }
+            case R.id.iv_switch: {
 
+                break;
+            }
+            case R.id.iv_capture: {
+
+                break;
+            }
+        }
     }
 
     @Override

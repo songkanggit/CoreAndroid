@@ -101,27 +101,52 @@ public class FirstFragment extends BaseFragment {
 
     @Override
     protected void init() {
+        String appender = "?roundPic/radius/50";
         mMomentList = new ArrayList<>();
         Moment moment = new Moment();
-        moment.setImageUrl(UrlConst.PICTURE_DOMAIN + "/ImageCache/23c19b652c27451eb1f8e525920180bf.jpg");
+        moment.setImageUrl(UrlConst.PICTURE_DOMAIN + "demo_1.jpg" + appender);
         moment.setAccountNickName("超能拳拳酱");
         moment.setContent("#晒娃大赛#");
         moment.setFavorite("11");
         mMomentList.add(moment);
         moment = new Moment();
-        moment.setImageUrl(UrlConst.PICTURE_DOMAIN + "/ImageCache/9680299b049d466dbd0e330fe9987fcd.jpg");
+        moment.setImageUrl(UrlConst.PICTURE_DOMAIN + "demo_2.jpg" + appender);
         moment.setAccountNickName("我家嘟嘟");
         moment.setContent("昨天给娃买了个机器人天天抱着不撒手#科...");
         moment.setFavorite("121");
         mMomentList.add(moment);
         moment = new Moment();
-        moment.setImageUrl(UrlConst.PICTURE_DOMAIN + "/ImageCache/23c19b652c27451eb1f8e525920180bf.jpg");
+        moment.setImageUrl(UrlConst.PICTURE_DOMAIN + "demo_3.jpg" + appender);
         moment.setAccountNickName("超能拳拳酱");
         moment.setContent("#科技宝宝#");
         moment.setFavorite("28");
         mMomentList.add(moment);
         moment = new Moment();
-        moment.setImageUrl(UrlConst.PICTURE_DOMAIN + "/ImageCache/9680299b049d466dbd0e330fe9987fcd.jpg");
+        moment.setImageUrl(UrlConst.PICTURE_DOMAIN + "demo_4.jpg"+ appender);
+        moment.setAccountNickName("我家嘟嘟");
+        moment.setContent("柴犬和小孩摘桑葚吃美了#晒娃大赛#");
+        moment.setFavorite("66");
+        mMomentList.add(moment);
+        moment = new Moment();
+        moment.setImageUrl(UrlConst.PICTURE_DOMAIN + "demo_5.jpg" + appender);
+        moment.setAccountNickName("超能拳拳酱");
+        moment.setContent("#晒娃大赛#");
+        moment.setFavorite("11");
+        mMomentList.add(moment);
+        moment = new Moment();
+        moment.setImageUrl(UrlConst.PICTURE_DOMAIN + "demo_6.jpg" + appender);
+        moment.setAccountNickName("我家嘟嘟");
+        moment.setContent("昨天给娃买了个机器人天天抱着不撒手#科...");
+        moment.setFavorite("121");
+        mMomentList.add(moment);
+        moment = new Moment();
+        moment.setImageUrl(UrlConst.PICTURE_DOMAIN + "demo_7.jpg" + appender);
+        moment.setAccountNickName("超能拳拳酱");
+        moment.setContent("#科技宝宝#");
+        moment.setFavorite("28");
+        mMomentList.add(moment);
+        moment = new Moment();
+        moment.setImageUrl(UrlConst.PICTURE_DOMAIN + "demo_8.jpg" + appender);
         moment.setAccountNickName("我家嘟嘟");
         moment.setContent("柴犬和小孩摘桑葚吃美了#晒娃大赛#");
         moment.setFavorite("66");
@@ -293,12 +318,9 @@ public class FirstFragment extends BaseFragment {
             holder.headImageIV.setImageUrl(moment.getAccountImageUrl());
             holder.nickNameTV.setText(moment.getAccountNickName());
             holder.countTV.setText(moment.getFavorite());
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(mContext, MomentDetailActivity.class);
-                    mContext.startActivity(intent);
-                }
+            holder.itemView.setOnClickListener(view -> {
+                Intent intent = new Intent(mContext, MomentDetailActivity.class);
+                mContext.startActivity(intent);
             });
         }
 
