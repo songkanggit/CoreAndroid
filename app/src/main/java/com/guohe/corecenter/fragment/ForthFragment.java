@@ -97,6 +97,7 @@ public class ForthFragment extends BaseFragment {
     @Override
     protected void setUpView() {
         ImmersionBar.with(this).statusBarColor(R.color.colorTransparent).statusBarDarkFont(true).fitsSystemWindows(true).init();
+        avatarCircleView.setImageUrl("http://img.guostory.com//ImageCache/16a341b3713c4c32ac2f39b523674099.png");
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mStaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         mRecyclerView.setAdapter(mTimeLineAdapter = new TimeLineAdapter(getActivity()));

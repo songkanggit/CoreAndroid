@@ -20,6 +20,7 @@
             android:background="#d8d8ff"
             android:layout_alignParentBottom="true"/>
         <com.guohe.corecenter.view.RoundImageView
+            android:id="@+id/iv_head_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_centerVertical="true"

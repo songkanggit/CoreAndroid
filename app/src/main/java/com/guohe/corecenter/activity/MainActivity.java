@@ -134,9 +134,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             }
             case R.id.ll_follower: {
+                Intent intent = new Intent(MainActivity.this, FollowerListActivity.class);
+                intent.putExtra("type", FollowerListActivity.FOLLOWER_TYPE);
+                startActivity(intent);
                 break;
             }
             case R.id.ll_favorite: {
+                Intent intent = new Intent(MainActivity.this, FollowerListActivity.class);
+                intent.putExtra("type", FollowerListActivity.FAVORITE_TYPE);
+                startActivity(intent);
                 break;
             }
         }
