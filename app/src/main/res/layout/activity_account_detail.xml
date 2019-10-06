@@ -8,9 +8,11 @@
     tools:context=".activity.AccountDetailActivity">
     <include layout="@layout/common_toolbar"/>
     <RelativeLayout
+        android:id="@+id/rl_headimage"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="@color/colorWhite">
+        android:background="@color/colorWhite"
+        android:foreground="?attr/selectableItemBackground">
         <TextView
             style="@style/DeviceInfoTextViewLeftStyle"
             android:text="头像"/>
@@ -35,9 +37,11 @@
             android:src="@mipmap/back_icn_right"/>
     </RelativeLayout>
     <RelativeLayout
+        android:id="@+id/rl_nick_name"
         android:layout_width="match_parent"
         android:layout_height="65dp"
-        android:background="@color/colorWhite">
+        android:background="@color/colorWhite"
+        android:foreground="?attr/selectableItemBackground">
         <TextView
             style="@style/DeviceInfoTextViewLeftStyle"
             android:text="昵称"/>
@@ -47,6 +51,7 @@
             android:background="#d8d8ff"
             android:layout_alignParentBottom="true"/>
         <TextView
+            android:id="@+id/tv_nick_name"
             style="@style/DeviceInfoTextViewRightStyle"
             android:layout_marginEnd="40dp"
             android:text="小阿飞"/>
@@ -59,9 +64,11 @@
             android:src="@mipmap/back_icn_right"/>
     </RelativeLayout>
     <RelativeLayout
+        android:id="@+id/rl_telephone"
         android:layout_width="match_parent"
         android:layout_height="65dp"
-        android:background="@color/colorWhite">
+        android:background="@color/colorWhite"
+        android:foreground="?attr/selectableItemBackground">
         <TextView
             style="@style/DeviceInfoTextViewLeftStyle"
             android:text="手机号码"/>
@@ -71,6 +78,7 @@
             android:background="#d8d8ff"
             android:layout_alignParentBottom="true"/>
         <TextView
+            android:id="@+id/tv_telephone"
             style="@style/DeviceInfoTextViewRightStyle"
             android:layout_marginEnd="40dp"
             android:text="18888888888"/>
@@ -83,9 +91,11 @@
             android:src="@mipmap/back_icn_right"/>
     </RelativeLayout>
     <RelativeLayout
+        android:id="@+id/rl_family"
         android:layout_width="match_parent"
         android:layout_height="65dp"
-        android:background="@color/colorWhite">
+        android:background="@color/colorWhite"
+        android:foreground="?attr/selectableItemBackground">
         <TextView
             style="@style/DeviceInfoTextViewLeftStyle"
             android:text="我的家庭"/>
@@ -95,6 +105,7 @@
             android:background="#d8d8ff"
             android:layout_alignParentBottom="true"/>
         <TextView
+            android:id="@+id/tv_family"
             style="@style/DeviceInfoTextViewRightStyle"
             android:layout_marginEnd="40dp"
             android:text="小阿飞的家庭"/>
@@ -107,9 +118,11 @@
             android:src="@mipmap/back_icn_right"/>
     </RelativeLayout>
     <RelativeLayout
+        android:id="@+id/rl_baby"
         android:layout_width="match_parent"
         android:layout_height="65dp"
-        android:background="@color/colorWhite">
+        android:background="@color/colorWhite"
+        android:foreground="?attr/selectableItemBackground">
         <TextView
             style="@style/DeviceInfoTextViewLeftStyle"
             android:text="我的宝宝"/>
@@ -119,6 +132,7 @@
             android:background="#d8d8ff"
             android:layout_alignParentBottom="true"/>
         <TextView
+            android:id="@+id/tv_baby"
             style="@style/DeviceInfoTextViewRightStyle"
             android:layout_marginEnd="40dp"
             android:text="小小飞"/>
@@ -132,6 +146,7 @@
     </RelativeLayout>
     
     <TextView
+        android:id="@+id/tv_logout"
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:layout_marginEnd="20dp"
@@ -141,5 +156,6 @@
         android:textColor="@color/colorWhite"
         android:textSize="18sp"
         android:gravity="center"
-        android:background="@drawable/text_view_bg_b2b2f9"/>
+        android:background="@drawable/text_view_bg_b2b2f9"
+        android:foreground="?attr/selectableItemBackground"/>
 </LinearLayout>

@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.guohe.corecenter.R;
 import com.guohe.corecenter.bean.HttpResponse;
 import com.guohe.corecenter.bean.RequestParam;
+import com.guohe.corecenter.constant.PreferenceConst;
 import com.guohe.corecenter.constant.UrlConst;
 import com.guohe.corecenter.utils.CountDownTimerUtils;
 import com.guohe.corecenter.utils.DateTimeUtil;
@@ -109,8 +110,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 final String telephone = mTelephoneET.getText().toString().trim();
                 final String code = mCodeET.getText().toString().trim();
                 if(!TextUtils.isEmpty(telephone) && !TextUtils.isEmpty(code)) {
-                    finish();
-//                    loginRequest(telephone, code);
+                    loginRequest(telephone, code);
 //                    SMSSDK.submitVerificationCode("86", telephone, code);
                 } else {
                     Toast.makeText(getApplicationContext(), "验证码为空", Toast.LENGTH_SHORT).show();
@@ -135,10 +135,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 try {
                     HttpResponse response = JacksonUtil.readValue(mHttpService.post(UrlConst.LOGIN_URL, requestParam.toString()), HttpResponse.class);
                     if(response.isSuccess()) {
-                        mPreferencesManager.put("AccessToken", response.getAccessToken());
-                        mPreferencesManager.put("UserInfo", response.getData());
+                        mPreferencesManager.put(PreferenceConst.ACCESS_TOKEN, response.getAccessToken());
+                        mPreferencesManager.writeObject(PreferenceConst.USER_INFO, response.getData());
                         Date validDate = DateTimeUtil.addDays(new Date(), 7);
-                        mPreferencesManager.put("LoginTime", DateTimeUtil.YYYY_MM_DD_HH_MM_SS.format(validDate));
+                        mPreferencesManager.put(PreferenceConst.LOGIN_TIME, DateTimeUtil.YYYY_MM_DD_HH_MM_SS.format(validDate));
                         finish();
                     } else {
                         runOnUiThread(() -> Toast.makeText(getApplicationContext(), response.getMsg(), Toast.LENGTH_SHORT).show());

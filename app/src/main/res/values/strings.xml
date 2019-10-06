@@ -33,4 +33,13 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+
+    <array name="spinner_family">
+        <item>爸爸</item>
+        <item>妈妈</item>
+        <item>爷爷</item>
+        <item>奶奶</item>
+        <item>外婆</item>
+        <item>外爷</item>
+    </array>
 </resources>

@@ -35,7 +35,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentViewClickListener, EasyPermissions.PermissionCallbacks,
         EasyPermissions.RationaleCallbacks {
-    private static final boolean isNeedLogin = false;
+    private static final boolean isNeedLogin = true;
 
     private Button mGLButton, mGHButton, mShopButton, mMineButton;
     private FrameLayout mPublishFL;
@@ -121,7 +121,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             }
             case R.id.fl_publish: {
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                Intent intent = new Intent(MainActivity.this, PictureSelectActivity.class);
                 startActivity(intent);
                 break;
             }

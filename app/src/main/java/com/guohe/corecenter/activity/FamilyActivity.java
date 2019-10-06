@@ -2,6 +2,7 @@ package com.guohe.corecenter.activity;
 
 import androidx.annotation.LayoutRes;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -38,6 +39,8 @@ public class FamilyActivity extends BaseActivity implements View.OnClickListener
                 break;
             }
             case R.id.tv_family_create: {
+                Intent intent = new Intent(FamilyActivity.this, CreateFamilyActivity.class);
+                startActivity(intent);
                 break;
             }
         }
