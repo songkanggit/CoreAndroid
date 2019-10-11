@@ -1,41 +1,18 @@
 package com.guohe.corecenter.fragment;
 
 import android.content.Context;
-import android.graphics.Rect;
 import android.os.Bundle;
 
-import android.os.Handler;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.guohe.corecenter.R;
-import com.guohe.corecenter.constant.DomainConst;
-import com.guohe.corecenter.constant.UrlConst;
-import com.guohe.corecenter.core.logger.Logger;
-import com.guohe.corecenter.view.CachedImageView;
-import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
-import org.intellij.lang.annotations.MagicConstant;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
  * A simple {@link BaseFragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link SecondFragment.OnFragmentViewClickListener} interface
+ * {@link OnFragmentInteraction} interface
  * to handle interaction events.
  * Use the {@link SecondFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -50,7 +27,7 @@ public class SecondFragment extends BaseFragment {
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentViewClickListener mListener;
+    private OnFragmentInteraction mListener;
 
     public SecondFragment() {
         // Required empty public constructor
@@ -110,8 +87,8 @@ public class SecondFragment extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentViewClickListener) {
-            mListener = (OnFragmentViewClickListener) context;
+        if (context instanceof OnFragmentInteraction) {
+            mListener = (OnFragmentInteraction) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");

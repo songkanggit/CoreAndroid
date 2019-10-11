@@ -15,11 +15,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.guohe.corecenter.R;
+import com.guohe.corecenter.activity.MainActivity;
+import com.guohe.corecenter.bean.Account;
+import com.guohe.corecenter.constant.PreferenceConst;
 import com.guohe.corecenter.constant.UrlConst;
+import com.guohe.corecenter.core.pereference.PreferencesManager;
+import com.guohe.corecenter.utils.JacksonUtil;
 import com.guohe.corecenter.view.AvatarCircleView;
 import com.guohe.corecenter.view.CachedImageView;
 import com.gyf.immersionbar.ImmersionBar;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +35,7 @@ import butterknife.OnClick;
 /**
  * A simple {@link BaseFragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link BaseFragment.OnFragmentViewClickListener} interface
+ * {@link OnFragmentInteraction} interface
  * to handle interaction events.
  * Use the {@link ForthFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -56,7 +62,7 @@ public class ForthFragment extends BaseFragment {
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
 
-    private OnFragmentViewClickListener mListener;
+    private OnFragmentInteraction mListener;
     private StaggeredGridLayoutManager mStaggeredGridLayoutManager;
     private TimeLineAdapter mTimeLineAdapter;
 
@@ -97,21 +103,30 @@ public class ForthFragment extends BaseFragment {
     @Override
     protected void setUpView() {
         ImmersionBar.with(this).statusBarColor(R.color.colorTransparent).statusBarDarkFont(true).fitsSystemWindows(true).init();
-        avatarCircleView.setImageUrl("http://img.guostory.com//ImageCache/16a341b3713c4c32ac2f39b523674099.png");
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(mStaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        mRecyclerView.setAdapter(mTimeLineAdapter = new TimeLineAdapter(getActivity()));
-        mRecyclerView.addItemDecoration(new SpaceItemDecoration(30));
-        List<String> dataList = new ArrayList<>();
-        dataList.add(UrlConst.PICTURE_DOMAIN + "demo_1.jpg");
-        dataList.add(UrlConst.PICTURE_DOMAIN + "demo_2.jpg");
-        dataList.add(UrlConst.PICTURE_DOMAIN + "demo_3.jpg");
-        dataList.add(UrlConst.PICTURE_DOMAIN + "demo_4.jpg");
-        dataList.add(UrlConst.PICTURE_DOMAIN + "demo_5.jpg");
-        dataList.add(UrlConst.PICTURE_DOMAIN + "demo_6.jpg");
-        dataList.add(UrlConst.PICTURE_DOMAIN + "demo_7.jpg");
-        dataList.add(UrlConst.PICTURE_DOMAIN + "demo_8.jpg");
-        mTimeLineAdapter.setData(dataList);
+        PreferencesManager preferencesManager = ((MainActivity)getActivity()).getPreferencesManager();
+        try {
+            Account account = JacksonUtil.convertValue(preferencesManager.readObject(PreferenceConst.USER_INFO), Account.class);
+            if(account != null) {
+                avatarCircleView.setImageUrl(UrlConst.PICTURE_DOMAIN + account.getHeadImage());
+                mRecyclerView.setHasFixedSize(true);
+                mRecyclerView.setLayoutManager(mStaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+                mRecyclerView.setAdapter(mTimeLineAdapter = new TimeLineAdapter(getActivity()));
+                mRecyclerView.addItemDecoration(new SpaceItemDecoration(30));
+                List<String> dataList = new ArrayList<>();
+
+                dataList.add(UrlConst.PICTURE_DOMAIN + "a857ef20cc4c407bac90d6406df59bce.jpg");
+                dataList.add(UrlConst.PICTURE_DOMAIN + "a857ef20cc4c407bac90d6406df59bce.jpg");
+                dataList.add(UrlConst.PICTURE_DOMAIN + "a857ef20cc4c407bac90d6406df59bce.jpg");
+                dataList.add(UrlConst.PICTURE_DOMAIN + "a857ef20cc4c407bac90d6406df59bce.jpg");
+                dataList.add(UrlConst.PICTURE_DOMAIN + "a857ef20cc4c407bac90d6406df59bce.jpg");
+                dataList.add(UrlConst.PICTURE_DOMAIN + "a857ef20cc4c407bac90d6406df59bce.jpg");
+                dataList.add(UrlConst.PICTURE_DOMAIN + "a857ef20cc4c407bac90d6406df59bce.jpg");
+                dataList.add(UrlConst.PICTURE_DOMAIN + "a857ef20cc4c407bac90d6406df59bce.jpg");
+                mTimeLineAdapter.setData(dataList);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -129,8 +144,8 @@ public class ForthFragment extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentViewClickListener) {
-            mListener = (OnFragmentViewClickListener) context;
+        if (context instanceof OnFragmentInteraction) {
+            mListener = (OnFragmentInteraction) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");

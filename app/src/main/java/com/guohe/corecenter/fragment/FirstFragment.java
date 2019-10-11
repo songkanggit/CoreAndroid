@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
-import android.os.Handler;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,12 +19,14 @@ import com.guohe.corecenter.R;
 import com.guohe.corecenter.activity.MomentDetailActivity;
 import com.guohe.corecenter.bean.Moment;
 import com.guohe.corecenter.constant.UrlConst;
+import com.guohe.corecenter.utils.JacksonUtil;
 import com.guohe.corecenter.view.AvatarCircleView;
 import com.guohe.corecenter.view.CachedImageView;
 import com.gyf.immersionbar.ImmersionBar;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,12 +36,12 @@ import butterknife.OnClick;
 /**
  * A simple {@link BaseFragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link FirstFragment.OnFragmentViewClickListener} interface
+ * {@link OnFragmentInteraction} interface
  * to handle interaction events.
  * Use the {@link FirstFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FirstFragment extends BaseFragment {
+public class FirstFragment extends BaseFragment implements FragmentActivityInterface {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -66,14 +67,13 @@ public class FirstFragment extends BaseFragment {
     TwinklingRefreshLayout mTwinklingRefreshLayout;
 
     private StaggeredGridLayoutManager mStaggeredGridLayoutManager;
-    private List<Moment> mMomentList;
     private MomentAdapter mMomentAdapter;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentViewClickListener mListener;
+    private OnFragmentInteraction mListener;
 
     public FirstFragment() {
         // Required empty public constructor
@@ -101,56 +101,6 @@ public class FirstFragment extends BaseFragment {
 
     @Override
     protected void init() {
-        String appender = "?roundPic/radius/50";
-        mMomentList = new ArrayList<>();
-        Moment moment = new Moment();
-        moment.setImageUrl(UrlConst.PICTURE_DOMAIN + "demo_1.jpg" + appender);
-        moment.setAccountNickName("超能拳拳酱");
-        moment.setContent("#晒娃大赛#");
-        moment.setFavorite("11");
-        mMomentList.add(moment);
-        moment = new Moment();
-        moment.setImageUrl(UrlConst.PICTURE_DOMAIN + "demo_2.jpg" + appender);
-        moment.setAccountNickName("我家嘟嘟");
-        moment.setContent("昨天给娃买了个机器人天天抱着不撒手#科...");
-        moment.setFavorite("121");
-        mMomentList.add(moment);
-        moment = new Moment();
-        moment.setImageUrl(UrlConst.PICTURE_DOMAIN + "demo_3.jpg" + appender);
-        moment.setAccountNickName("超能拳拳酱");
-        moment.setContent("#科技宝宝#");
-        moment.setFavorite("28");
-        mMomentList.add(moment);
-        moment = new Moment();
-        moment.setImageUrl(UrlConst.PICTURE_DOMAIN + "demo_4.jpg"+ appender);
-        moment.setAccountNickName("我家嘟嘟");
-        moment.setContent("柴犬和小孩摘桑葚吃美了#晒娃大赛#");
-        moment.setFavorite("66");
-        mMomentList.add(moment);
-        moment = new Moment();
-        moment.setImageUrl(UrlConst.PICTURE_DOMAIN + "demo_5.jpg" + appender);
-        moment.setAccountNickName("超能拳拳酱");
-        moment.setContent("#晒娃大赛#");
-        moment.setFavorite("11");
-        mMomentList.add(moment);
-        moment = new Moment();
-        moment.setImageUrl(UrlConst.PICTURE_DOMAIN + "demo_6.jpg" + appender);
-        moment.setAccountNickName("我家嘟嘟");
-        moment.setContent("昨天给娃买了个机器人天天抱着不撒手#科...");
-        moment.setFavorite("121");
-        mMomentList.add(moment);
-        moment = new Moment();
-        moment.setImageUrl(UrlConst.PICTURE_DOMAIN + "demo_7.jpg" + appender);
-        moment.setAccountNickName("超能拳拳酱");
-        moment.setContent("#科技宝宝#");
-        moment.setFavorite("28");
-        mMomentList.add(moment);
-        moment = new Moment();
-        moment.setImageUrl(UrlConst.PICTURE_DOMAIN + "demo_8.jpg" + appender);
-        moment.setAccountNickName("我家嘟嘟");
-        moment.setContent("柴犬和小孩摘桑葚吃美了#晒娃大赛#");
-        moment.setFavorite("66");
-        mMomentList.add(moment);
     }
 
     @Override
@@ -165,57 +115,11 @@ public class FirstFragment extends BaseFragment {
         mRecyclerView.setLayoutManager(mStaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         mRecyclerView.setAdapter(mMomentAdapter = new MomentAdapter(getActivity()));
         mRecyclerView.addItemDecoration(new SpaceItemDecoration(30));
-        mMomentAdapter.setData(mMomentList);
 
         mTwinklingRefreshLayout.setOnRefreshListener(new RefreshListenerAdapter() {
             @Override
-            public void onPullingDown(TwinklingRefreshLayout refreshLayout, float fraction) {
-                super.onPullingDown(refreshLayout, fraction);
-            }
-
-            @Override
-            public void onPullingUp(TwinklingRefreshLayout refreshLayout, float fraction) {
-                super.onPullingUp(refreshLayout, fraction);
-            }
-
-            @Override
-            public void onPullDownReleasing(TwinklingRefreshLayout refreshLayout, float fraction) {
-                super.onPullDownReleasing(refreshLayout, fraction);
-            }
-
-            @Override
-            public void onPullUpReleasing(TwinklingRefreshLayout refreshLayout, float fraction) {
-                super.onPullUpReleasing(refreshLayout, fraction);
-            }
-
-            @Override
             public void onRefresh(TwinklingRefreshLayout refreshLayout) {
-                new Handler().postDelayed(() -> refreshLayout.finishRefreshing(),1000);
-            }
-
-            @Override
-            public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
-                new Handler().postDelayed(() -> refreshLayout.finishLoadmore(),1000);
-            }
-
-            @Override
-            public void onFinishRefresh() {
-                super.onFinishRefresh();
-            }
-
-            @Override
-            public void onFinishLoadMore() {
-                super.onFinishLoadMore();
-            }
-
-            @Override
-            public void onRefreshCanceled() {
-                super.onRefreshCanceled();
-            }
-
-            @Override
-            public void onLoadmoreCanceled() {
-                super.onLoadmoreCanceled();
+                mListener.onRefresh(refreshLayout);
             }
         });
     }
@@ -242,8 +146,8 @@ public class FirstFragment extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentViewClickListener) {
-            mListener = (OnFragmentViewClickListener) context;
+        if (context instanceof OnFragmentInteraction) {
+            mListener = (OnFragmentInteraction) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -254,6 +158,30 @@ public class FirstFragment extends BaseFragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onDataUpdate(List<Object> dataList) {
+        List<Moment> momentList = new ArrayList<>();
+        try {
+            if(!dataList.isEmpty()) {
+                for(Object data:dataList) {
+                    Moment moment = JacksonUtil.convertValue(data, Moment.class);
+                    momentList.add(moment);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        getActivity().runOnUiThread(() -> {
+            mMomentAdapter.setData(momentList);
+            mTwinklingRefreshLayout.finishRefreshing();
+        });
+    }
+
+    @Override
+    public void onDataUpdate(Object data) {
+
     }
 
     private void toggleTopBar(final int viewId) {
@@ -313,11 +241,12 @@ public class FirstFragment extends BaseFragment {
         @Override
         public void onBindViewHolder(@NonNull MomentViewHolder holder, int position) {
             Moment moment = mMomentList.get(position);
+            String appender = "?roundPic/radius/50";
             holder.contentTV.setText(moment.getContent());
-            holder.posterIv.setImageUrl(moment.getImageUrl());
-            holder.headImageIV.setImageUrl(moment.getAccountImageUrl());
-            holder.nickNameTV.setText(moment.getAccountNickName());
-            holder.countTV.setText(moment.getFavorite());
+            holder.posterIv.setImageUrl(UrlConst.PICTURE_DOMAIN + moment.getImageList()[0] + appender);
+            holder.headImageIV.setImageUrl(UrlConst.PICTURE_DOMAIN + moment.getAccountHeadImage());
+            holder.nickNameTV.setText(moment.getAccountName());
+            holder.countTV.setText(moment.getLikes());
             holder.itemView.setOnClickListener(view -> {
                 Intent intent = new Intent(mContext, MomentDetailActivity.class);
                 mContext.startActivity(intent);

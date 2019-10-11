@@ -16,15 +16,22 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.guohe.corecenter.R;
+import com.guohe.corecenter.bean.HttpResponse;
+import com.guohe.corecenter.bean.RequestParam;
 import com.guohe.corecenter.constant.PermissionConst;
+import com.guohe.corecenter.constant.UrlConst;
 import com.guohe.corecenter.core.logger.Logger;
 import com.guohe.corecenter.fragment.BaseFragment;
 import com.guohe.corecenter.fragment.FirstFragment;
 import com.guohe.corecenter.fragment.ForthFragment;
+import com.guohe.corecenter.fragment.FragmentActivityInterface;
 import com.guohe.corecenter.fragment.SecondFragment;
 import com.guohe.corecenter.fragment.ThirdFragment;
 import com.guohe.corecenter.utils.DateTimeUtil;
+import com.guohe.corecenter.utils.JacksonUtil;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,7 +40,7 @@ import java.util.List;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentViewClickListener, EasyPermissions.PermissionCallbacks,
+public class MainActivity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentInteraction, EasyPermissions.PermissionCallbacks,
         EasyPermissions.RationaleCallbacks {
     private static final boolean isNeedLogin = true;
 
@@ -75,6 +82,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     protected void initDataAfterUiAffairs(){
         setSwipeBackEnable(false);
         toggleFragment(0);
+        requestMomentList((FirstFragment)mFragmentList.get(0));
     }
 
     @Override
@@ -206,6 +214,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                         return false;
                     } else {
                         Toast.makeText(getApplicationContext(), "登陆已过期过期", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(intent);
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -217,7 +227,77 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         return true;
     }
 
-    //Permissions Block
+    private void requestMomentList(@NonNull FragmentActivityInterface callBack) {
+        mCoreContext.executeAsyncTask(() -> {
+            RequestParam requestParam = RequestParam.newInstance(mPreferencesManager);
+            List<Object> dataList = new ArrayList<>();
+            try {
+                HttpResponse response = JacksonUtil.readValue(mHttpService.post(UrlConst.MOMENT_LIST_URL, requestParam.toString()), HttpResponse.class);
+                if(response.isSuccess()) {
+                    dataList.addAll((List<Object>) response.getData());
+                } else {
+                    Toast.makeText(getApplicationContext(), response.getMsg(), Toast.LENGTH_SHORT).show();
+                }
+            } catch (IOException e) {
+                Toast.makeText(getApplicationContext(), "网络请求错误", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+            callBack.onDataUpdate(dataList);
+        });
+    }
+
+    //============================================Pull Listener Start==============================================
+    @Override
+    public void onPullingDown(TwinklingRefreshLayout refreshLayout, float fraction) {
+
+    }
+
+    @Override
+    public void onPullingUp(TwinklingRefreshLayout refreshLayout, float fraction) {
+
+    }
+
+    @Override
+    public void onPullDownReleasing(TwinklingRefreshLayout refreshLayout, float fraction) {
+
+    }
+
+    @Override
+    public void onPullUpReleasing(TwinklingRefreshLayout refreshLayout, float fraction) {
+
+    }
+
+    @Override
+    public void onRefresh(TwinklingRefreshLayout refreshLayout) {
+        requestMomentList((FirstFragment)mFragmentList.get(0));
+    }
+
+    @Override
+    public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
+
+    }
+
+    @Override
+    public void onFinishRefresh() {
+
+    }
+
+    @Override
+    public void onFinishLoadMore() {
+
+    }
+
+    @Override
+    public void onRefreshCanceled() {
+
+    }
+
+    @Override
+    public void onLoadmoreCanceled() {
+
+    }
+    //============================================Pull Listener End==============================================
+    //============================================Permission Start==============================================
     private static final String[] REQUIRED_PERMISSIONS =
             {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION};
 
@@ -257,4 +337,5 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public void onRationaleDenied(int requestCode) {
         Logger.d(TAG, "onRationaleDenied:" + requestCode);
     }
+    //============================================Permission End==============================================
 }

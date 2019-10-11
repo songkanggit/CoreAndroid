@@ -2,34 +2,43 @@ package com.guohe.corecenter.activity;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Rect;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.guohe.corecenter.R;
-import com.guohe.corecenter.utils.BitmapUtil;
+import com.guohe.corecenter.bean.HttpResponse;
+import com.guohe.corecenter.bean.RequestParam;
+import com.guohe.corecenter.constant.UrlConst;
 import com.guohe.corecenter.utils.DensityUtil;
+import com.guohe.corecenter.utils.JacksonUtil;
+import com.guohe.corecenter.utils.UUIDUtil;
 import com.guohe.corecenter.view.bigimageview.ImageViewer;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.qiniu.android.common.FixedZone;
+import com.qiniu.android.storage.Configuration;
+import com.qiniu.android.storage.UploadManager;
 
+
+import org.json.JSONArray;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,10 +50,21 @@ public class PictureSelectActivity extends BaseActivity implements View.OnClickL
     private RecyclerView mRecyclerView;
     private List<LocalMedia> mSelectedImageList;
     private ImageRecyclerViewAdapter mRecyclerAdapter;
+    private EditText mContentET;
+    private UploadManager mUploadManager;
+    private Configuration config = new Configuration.Builder()
+            .chunkSize(512 * 1024)        // 分片上传时，每片的大小。 默认256K
+            .putThreshhold(1024 * 1024)   // 启用分片上传阀值。默认512K
+            .connectTimeout(10)           // 链接超时。默认10秒
+            .useHttps(true)               // 是否使用https上传域名
+            .responseTimeout(60)          // 服务器响应超时。默认60秒
+            .zone(FixedZone.zone1)        // 设置区域，指定不同区域的上传域名、备用域名、备用IP。
+            .build();
 
     protected void parseNonNullBundle(Bundle bundle){}
     protected void initDataIgnoreUi() {
         mSelectedImageList = new ArrayList<>();
+        mUploadManager = new UploadManager(config);
     }
     @LayoutRes
     protected int getLayoutResourceId() { return R.layout.activity_picture_select;}
@@ -53,6 +73,7 @@ public class PictureSelectActivity extends BaseActivity implements View.OnClickL
         mTitleTV = fvb(R.id.toolbar_title);
         mPublishTV = fvb(R.id.toolbar_menu);
         mRecyclerView = fvb(R.id.recycler_view);
+        mContentET = fvb(R.id.et_content);
     }
     protected void assembleViewClickAffairs(){
         mBackLL.setOnClickListener(this::onClick);
@@ -79,6 +100,16 @@ public class PictureSelectActivity extends BaseActivity implements View.OnClickL
                 break;
             }
             case R.id.toolbar_menu: {
+                String content = mContentET.getText().toString();
+                if(!TextUtils.isEmpty(content)) {
+                    if(!mSelectedImageList.isEmpty()) {
+                        publishImage(content);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "发表图片至少一张", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "发表内容不能为空", Toast.LENGTH_SHORT).show();
+                }
                 break;
             }
         }
@@ -104,6 +135,61 @@ public class PictureSelectActivity extends BaseActivity implements View.OnClickL
                 }
             }
         }
+    }
+
+    private void publishImage(final String content) {
+        if(isNetworkAvailable()) {
+            RequestParam requestParam = RequestParam.newInstance(mPreferencesManager);
+            requestParam.addAttribute("content", content);
+            mCoreContext.executeAsyncTask(() -> {
+                final String getUrl = UrlConst.GET_QINIU_TOKEN + "0";
+                try {
+                    JSONArray imageArray = new JSONArray();
+                    for(LocalMedia localMedia:mSelectedImageList) {
+                        HttpResponse response = JacksonUtil.readValue(mHttpService.get(getUrl), HttpResponse.class);
+                        if(response.isSuccess()) {
+                            final String randomKey = UUIDUtil.createRandomUUID() + ".jpg";
+                            mUploadManager.put(localMedia.getCompressPath(), randomKey, (String)response.getData(), (key, info, response1) -> {
+                                if(info.isOK()) {
+                                    imageArray.put(key);
+                                    if(mSelectedImageList.size() == imageArray.length()) {
+                                        requestParam.addAttribute("imageList", imageArray);
+                                        publishMoment(requestParam);
+                                    }
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "图片上传失败", Toast.LENGTH_SHORT).show();
+                                }
+                            }, null);
+                        } else {
+                            runOnUiThread(() -> Toast.makeText(getApplicationContext(), "图片上传失败", Toast.LENGTH_SHORT).show());
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            });
+        } else {
+            Toast.makeText(getApplicationContext(), R.string.network_disable, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void publishMoment(final RequestParam requestParam) {
+        mCoreContext.executeAsyncTask(() -> {
+            try {
+                HttpResponse response = JacksonUtil.readValue(mHttpService.post(UrlConst.PUBLISH_MOMENT_URL, requestParam.toString()), HttpResponse.class);
+                runOnUiThread(() -> {
+                    if(response.isSuccess()) {
+                        PictureSelectActivity.this.finish();
+                    } else {
+                        Toast.makeText(getApplicationContext(), response.getMsg(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
     }
 
     public class ImageRecyclerViewAdapter extends RecyclerView.Adapter<ImageHolder> {
@@ -190,37 +276,6 @@ public class PictureSelectActivity extends BaseActivity implements View.OnClickL
             holderCL = view.findViewById(R.id.cl_container);
             imageViewSelect = view.findViewById(R.id.iv_image);
             imageViewDelete = view.findViewById(R.id.iv_delete);
-        }
-    }
-
-    public class ImageItemDecoration extends RecyclerView.ItemDecoration {
-        int verticalSpace, horizonSpace;
-
-        public ImageItemDecoration(int h, int v) {
-            horizonSpace = h;
-            verticalSpace = v;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            outRect.bottom = verticalSpace;
-            switch (parent.getChildLayoutPosition(view)%3) {
-                case 0: {
-                    outRect.left = 0;
-                    outRect.right = horizonSpace*2;
-                    break;
-                }
-                case 1: {
-                    outRect.left = horizonSpace;
-                    outRect.right = horizonSpace;
-                    break;
-                }
-                case 2: {
-                    outRect.left = horizonSpace*2;
-                    outRect.right = 0;
-                    break;
-                }
-            }
         }
     }
 }

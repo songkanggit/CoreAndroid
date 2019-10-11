@@ -1,12 +1,16 @@
 package com.guohe.corecenter.bean;
 
+import java.util.Date;
+
 public class Moment {
     private String id;
-    private String imageUrl;
+    private String accountId;
+    private String accountName;
+    private String accountHeadImage;
     private String content;
-    private String accountImageUrl;
-    private String accountNickName;
-    private String favorite;
+    private String[] imageList;
+    private String likes;
+    private Date createTime;
 
     public String getId() {
         return id;
@@ -16,12 +20,28 @@ public class Moment {
         this.id = id;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getAccountId() {
+        return accountId;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
+
+    public String getAccountName() {
+        return accountName;
+    }
+
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
+    }
+
+    public String getAccountHeadImage() {
+        return accountHeadImage;
+    }
+
+    public void setAccountHeadImage(String accountHeadImage) {
+        this.accountHeadImage = accountHeadImage;
     }
 
     public String getContent() {
@@ -32,27 +52,27 @@ public class Moment {
         this.content = content;
     }
 
-    public String getAccountImageUrl() {
-        return accountImageUrl;
+    public String[] getImageList() {
+        return imageList;
     }
 
-    public void setAccountImageUrl(String accountImageUrl) {
-        this.accountImageUrl = accountImageUrl;
+    public void setImageList(String[] imageList) {
+        this.imageList = imageList;
     }
 
-    public String getAccountNickName() {
-        return accountNickName;
+    public String getLikes() {
+        return likes;
     }
 
-    public void setAccountNickName(String accountNickName) {
-        this.accountNickName = accountNickName;
+    public void setLikes(String likes) {
+        this.likes = likes;
     }
 
-    public String getFavorite() {
-        return favorite;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setFavorite(String favorite) {
-        this.favorite = favorite;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

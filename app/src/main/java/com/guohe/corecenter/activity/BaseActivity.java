@@ -123,6 +123,22 @@ public abstract class BaseActivity extends AppCompatActivity implements SwipeBac
         return ((CoreApplication) getApplication()).getCoreContext();
     }
 
+    public PreferencesManager getPreferencesManager() {
+        return mPreferencesManager;
+    }
+
+    public NetworkManager getNetworkManager() {
+        return mNetworkManager;
+    }
+
+    public LoggerService getLoggerService() {
+        return mLoggerService;
+    }
+
+    public HttpService getHttpService() {
+        return mHttpService;
+    }
+
     protected boolean isNetworkAvailable() {
         return NetworkUtil.isNetworkConnected(getApplicationContext());
     }

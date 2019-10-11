@@ -19,16 +19,18 @@ import com.guohe.corecenter.bean.HttpResponse;
 import com.guohe.corecenter.bean.RequestParam;
 import com.guohe.corecenter.constant.PreferenceConst;
 import com.guohe.corecenter.constant.UrlConst;
-import com.guohe.corecenter.utils.DateTimeUtil;
 import com.guohe.corecenter.utils.JacksonUtil;
+import com.guohe.corecenter.utils.UUIDUtil;
 import com.guohe.corecenter.view.RoundImageView;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.qiniu.android.common.FixedZone;
+import com.qiniu.android.storage.Configuration;
+import com.qiniu.android.storage.UploadManager;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 
 public class AccountDetailActivity extends BaseActivity implements View.OnClickListener {
@@ -37,9 +39,19 @@ public class AccountDetailActivity extends BaseActivity implements View.OnClickL
     private RelativeLayout mNickNameRL, mHeadImageRL, mTelephoneRL, mFaimlyRL, mBabyRL;
     private RoundImageView mHeadImage;
     private Account mAccountInfo;
+    private UploadManager mUploadManager;
+    private Configuration config = new Configuration.Builder()
+            .chunkSize(512 * 1024)        // 分片上传时，每片的大小。 默认256K
+            .putThreshhold(1024 * 1024)   // 启用分片上传阀值。默认512K
+            .connectTimeout(10)           // 链接超时。默认10秒
+            .useHttps(true)               // 是否使用https上传域名
+            .responseTimeout(60)          // 服务器响应超时。默认60秒
+            .zone(FixedZone.zone1)        // 设置区域，指定不同区域的上传域名、备用域名、备用IP。
+            .build();
 
     protected void parseNonNullBundle(Bundle bundle){}
     protected void initDataIgnoreUi() {
+        mUploadManager = new UploadManager(config);
         try {
             mAccountInfo = JacksonUtil.convertValue(mPreferencesManager.readObject(PreferenceConst.USER_INFO), Account.class);
         } catch (IOException e) {
@@ -81,9 +93,9 @@ public class AccountDetailActivity extends BaseActivity implements View.OnClickL
     protected void initDataAfterUiAffairs(){
         mTitleTV.setText("个人信息");
         if(!TextUtils.isEmpty(mAccountInfo.getHeadImage())) {
-            mHeadImage.setImageUrl("http://img.guostory.com//ImageCache/16a341b3713c4c32ac2f39b523674099.png");
+            mHeadImage.setImageUrl(UrlConst.PICTURE_DOMAIN + mAccountInfo.getHeadImage());
         } else {
-            mHeadImage.setImageUrl("http://img.guostory.com//ImageCache/16a341b3713c4c32ac2f39b523674099.png");
+            mHeadImage.setImageResource(R.mipmap.ic_launcher);
         }
         if(!TextUtils.isEmpty(mAccountInfo.getNickName())) {
             mNickNameTV.setText(mAccountInfo.getNickName());
@@ -131,11 +143,34 @@ public class AccountDetailActivity extends BaseActivity implements View.OnClickL
                     // 3.media.getCompressPath();为压缩后path，需判断media.isCompressed();是否为true  注意：音视频除外
                     // 如果裁剪并压缩了，以取压缩路径为准，因为是先裁剪后压缩的
                     mHeadImage.setImageBitmap(BitmapFactory.decodeFile(selectList.get(0).getCompressPath()));
+                    uploadImage(selectList.get(0).getCompressPath());
                     break;
                 }
             }
         }
     }
+
+    private void uploadImage(final String imagePath) {
+        mCoreContext.executeAsyncTask(() -> {
+            final String getUrl = UrlConst.GET_QINIU_TOKEN + "0";
+            try {
+                HttpResponse response = JacksonUtil.readValue(mHttpService.get(getUrl), HttpResponse.class);
+                if(response.isSuccess()) {
+                    final String randomKey = UUIDUtil.createRandomUUID() + ".jpg";
+                    mUploadManager.put(imagePath, randomKey, ((String) response.getData()), (key, info, response1) -> {
+                        if (info.isOK()) {
+                            updateInfo("", randomKey);
+                        } else {
+                            runOnUiThread(() -> Toast.makeText(getApplicationContext(), "头像上传失败", Toast.LENGTH_SHORT).show());
+                        }
+                    }, null);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
 
     private void updateInfo(final String nickName, final String headImage) {
         if(isNetworkAvailable()) {
@@ -149,15 +184,15 @@ public class AccountDetailActivity extends BaseActivity implements View.OnClickL
             mCoreContext.executeAsyncTask(() -> {
                 try {
                     HttpResponse response = JacksonUtil.readValue(mHttpService.post(UrlConst.USER_UPDATE_URL, requestParam.toString()), HttpResponse.class);
-                    if(response.isSuccess()) {
-                        mPreferencesManager.put(PreferenceConst.ACCESS_TOKEN, response.getAccessToken());
-                        mPreferencesManager.writeObject(PreferenceConst.USER_INFO, response.getData());
-                        Date validDate = DateTimeUtil.addDays(new Date(), 7);
-                        mPreferencesManager.put(PreferenceConst.LOGIN_TIME, DateTimeUtil.YYYY_MM_DD_HH_MM_SS.format(validDate));
-                        finish();
-                    } else {
-                        runOnUiThread(() -> Toast.makeText(getApplicationContext(), response.getMsg(), Toast.LENGTH_SHORT).show());
-                    }
+                    runOnUiThread(() -> {
+                        String message = "更新成功";
+                        if(response.isSuccess()) {
+                            mPreferencesManager.writeObject(PreferenceConst.USER_INFO, response.getData());
+                        } else {
+                            message = "更新失败";
+                        }
+                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                    });
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

@@ -10,7 +10,7 @@ import com.guohe.corecenter.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link BaseFragment.OnFragmentViewClickListener} interface
+ * {@link OnFragmentInteraction} interface
  * to handle interaction events.
  * Use the {@link ThirdFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -25,7 +25,7 @@ public class ThirdFragment extends BaseFragment {
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentViewClickListener mListener;
+    private OnFragmentInteraction mListener;
 
     public ThirdFragment() {
         // Required empty public constructor
@@ -80,8 +80,8 @@ public class ThirdFragment extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentViewClickListener) {
-            mListener = (OnFragmentViewClickListener) context;
+        if (context instanceof OnFragmentInteraction) {
+            mListener = (OnFragmentInteraction) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");

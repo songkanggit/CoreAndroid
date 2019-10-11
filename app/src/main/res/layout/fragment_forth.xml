@@ -179,54 +179,44 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:gravity="center_horizontal"
-        app:layout_constraintWidth_percent="40"
+        app:layout_constraintWidth_percent="30"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rl_personal_container"
         android:layout_marginStart="10dp">
         <ImageView
-            android:id="@+id/iv_leaves"
+            android:id="@+id/iv_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/tree_leaves1"
+            android:src="@mipmap/tree_leaves_up"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_centerHorizontal="true"/>
+            app:layout_constraintTop_toTopOf="parent"/>
+        <ImageView
+            android:id="@+id/iv_center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/tree_leaves_mid"
+            app:layout_constraintTop_toBottomOf="@id/iv_top"
+            app:layout_constraintStart_toStartOf="parent"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/tree_leaves_down"
+            app:layout_constraintTop_toBottomOf="@id/iv_center"
+            app:layout_constraintStart_toStartOf="parent"/>
         <ImageView
             android:id="@+id/iv_branch1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
-            android:src="@mipmap/tree_branch1"
-            app:layout_constraintTop_toTopOf="@id/iv_leaves"
-            app:layout_constraintStart_toEndOf="@id/iv_trunk"/>
+            android:src="@mipmap/tree_branch_right"
+            app:layout_constraintTop_toTopOf="@id/iv_center"
+            app:layout_constraintStart_toStartOf="@id/iv_center"/>
         <ImageView
-            android:id="@+id/iv_branch2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:src="@mipmap/tree_branch2"
-            android:layout_marginBottom="40dp"
-            app:layout_constraintBottom_toBottomOf="@id/iv_leaves"
-            app:layout_constraintRight_toLeftOf="@id/iv_trunk"/>
-        <ImageView
-            android:id="@+id/iv_trunk"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/iv_leaves"
-            android:layout_marginTop="30dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="-55dp"
-            android:src="@mipmap/tree_trunk"/>
-        <ImageView
-            android:id="@+id/iv_grass"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/tree_grass"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_leaves"/>
+            android:src="@mipmap/tree_branch_left"
+            android:layout_marginStart="-5dp"
+            app:layout_constraintStart_toStartOf="@id/iv_center"
+            app:layout_constraintBottom_toBottomOf="@id/iv_center"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
     <ImageView
         android:id="@+id/iv_time_line"

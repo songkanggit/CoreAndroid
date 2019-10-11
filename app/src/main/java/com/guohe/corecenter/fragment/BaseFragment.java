@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.lcodecore.tkrefreshlayout.PullListener;
+
 import org.jetbrains.annotations.Nullable;
 
 import butterknife.ButterKnife;
@@ -59,7 +61,7 @@ public abstract class BaseFragment extends Fragment {
         return mContentView;
     }
 
-    public interface OnFragmentViewClickListener {
+    public interface OnFragmentInteraction extends PullListener {
         void onFragmentInteraction(View view);
     }
 }

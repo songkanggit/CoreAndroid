@@ -2,6 +2,7 @@ package com.guohe.corecenter.bean;
 
 import androidx.annotation.NonNull;
 
+import com.guohe.corecenter.constant.PreferenceConst;
 import com.guohe.corecenter.core.pereference.PreferencesManager;
 
 import org.json.JSONException;
@@ -14,7 +15,8 @@ public class RequestParam {
         RequestParam requestParam = new RequestParam();
         try {
             requestParam.param = new JSONObject();
-            requestParam.param.put("UserInfo", manager.get("UserInfo", null));
+            final String accessToken = manager.get(PreferenceConst.ACCESS_TOKEN, "");
+            requestParam.param.put("accessToken", accessToken);
         } catch (JSONException e) {
             e.printStackTrace();
         }
