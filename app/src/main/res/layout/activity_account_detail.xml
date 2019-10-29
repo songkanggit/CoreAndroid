@@ -80,7 +80,7 @@
         <TextView
             android:id="@+id/tv_telephone"
             style="@style/DeviceInfoTextViewRightStyle"
-            android:layout_marginEnd="40dp"
+            android:layout_marginEnd="20dp"
             android:text="18888888888"/>
         <ImageView
             android:layout_width="wrap_content"
@@ -88,6 +88,7 @@
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="20dp"
+            android:visibility="gone"
             android:src="@mipmap/back_icn_right"/>
     </RelativeLayout>
     <RelativeLayout
@@ -107,7 +108,7 @@
         <TextView
             android:id="@+id/tv_family"
             style="@style/DeviceInfoTextViewRightStyle"
-            android:layout_marginEnd="40dp"
+            android:layout_marginEnd="20dp"
             android:text="小阿飞的家庭"/>
         <ImageView
             android:layout_width="wrap_content"
@@ -115,6 +116,7 @@
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="20dp"
+            android:visibility="gone"
             android:src="@mipmap/back_icn_right"/>
     </RelativeLayout>
     <RelativeLayout
@@ -134,7 +136,7 @@
         <TextView
             android:id="@+id/tv_baby"
             style="@style/DeviceInfoTextViewRightStyle"
-            android:layout_marginEnd="40dp"
+            android:layout_marginEnd="20dp"
             android:text="小小飞"/>
         <ImageView
             android:layout_width="wrap_content"
@@ -142,6 +144,7 @@
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="20dp"
+            android:visibility="gone"
             android:src="@mipmap/back_icn_right"/>
     </RelativeLayout>
     

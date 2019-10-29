@@ -81,6 +81,7 @@ public class PictureSelectActivity extends BaseActivity implements View.OnClickL
     }
     protected void initDataAfterUiAffairs(){
         mTitleTV.setText("发布图集");
+        mPublishTV.setText("发布");
 
         int displayWidth = DensityUtil.deviceDisplayWidth(getApplicationContext());
         int itemGap = DensityUtil.dip2px(getApplicationContext(), 4);

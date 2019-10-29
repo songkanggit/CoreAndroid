@@ -26,9 +26,13 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.PictureSelectActivity"></activity>
-        <activity android:name=".activity.FollowerListActivity"
+        <activity android:name=".activity.CommonEditActivity"
             android:launchMode="singleTop"/>
+        <activity android:name=".activity.PictureSelectActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name=".activity.FollowerListActivity"
+            android:launchMode="singleTop" />
         <activity
             android:name=".activity.AboutSunshineActivity"
             android:launchMode="singleTop" />

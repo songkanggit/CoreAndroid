@@ -125,6 +125,13 @@ public class AccountDetailActivity extends BaseActivity implements View.OnClickL
                         .forResult(PictureConfig.CHOOSE_REQUEST);
                 break;
             }
+            case R.id.rl_nickname: {
+                Intent intent = new Intent(AccountDetailActivity.this, CommonEditActivity.class);
+                intent.putExtra("title", "修改昵称");
+                intent.putExtra("hint", "请输入昵称");
+                startActivity(intent);
+                break;
+            }
         }
     }
 
