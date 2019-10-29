@@ -2,7 +2,7 @@ package com.guohe.corecenter.constant;
 
 public class UrlConst {
 
-    public static final String DOMAIN = "http://192.168.0.200:8090/";//"http://39.100.41.44/";
+    public static final String DOMAIN = "http://192.168.0.199:9090/";//"http://39.100.41.44/";
 
     public static final String PICTURE_DOMAIN = "http://img.guoheai.com/";
 

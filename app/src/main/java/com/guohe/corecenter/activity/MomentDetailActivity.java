@@ -3,6 +3,7 @@ package com.guohe.corecenter.activity;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -16,34 +17,37 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.guohe.corecenter.R;
+import com.guohe.corecenter.bean.Moment;
 import com.guohe.corecenter.constant.UrlConst;
+import com.guohe.corecenter.view.AvatarCircleView;
 import com.guohe.corecenter.view.CachedImageView;
 import com.gyf.immersionbar.ImmersionBar;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MomentDetailActivity extends BaseActivity implements View.OnClickListener {
     private LinearLayout mBackLL;
-    private TextView mTitleTV;
+    private AvatarCircleView mHeadImageIV;
+    private TextView mTitleTV, mNickNameTV, mContentTV;
     private ViewPager mViewPager;
     private List<String> mImageList;
     private ViewPagerAdapter mViewAdapter;
+    private Moment mMoment;
+    private ConstraintLayout mCLPanel;
     private TextView mFollowTV, mCommentTV, mLikeTV, mFavoriteTV;
 
 
-    protected void parseNonNullBundle(Bundle bundle){}
+    protected void parseNonNullBundle(Bundle bundle){
+        mMoment = (Moment) bundle.get("data");
+        mImageList = Arrays.asList(mMoment.getImageList());
+    }
     protected void initDataIgnoreUi() {
         ImmersionBar.with(this).statusBarColor(R.color.smssdk_black).init();
-        mImageList = new ArrayList<>();
-        mImageList.add(UrlConst.PICTURE_DOMAIN + "demo_1.jpg");
-        mImageList.add(UrlConst.PICTURE_DOMAIN + "demo_2.jpg");
-        mImageList.add(UrlConst.PICTURE_DOMAIN + "demo_3.jpg");
-        mImageList.add(UrlConst.PICTURE_DOMAIN + "demo_4.jpg");
-        mImageList.add(UrlConst.PICTURE_DOMAIN + "demo_5.jpg");
-        mImageList.add(UrlConst.PICTURE_DOMAIN + "demo_6.jpg");
-        mImageList.add(UrlConst.PICTURE_DOMAIN + "demo_7.jpg");
-        mImageList.add(UrlConst.PICTURE_DOMAIN + "demo_8.jpg");
+        if(mImageList.isEmpty()) {
+            finish();
+        }
     }
     @LayoutRes
     protected int getLayoutResourceId() { return R.layout.activity_moment_detail;}
@@ -56,6 +60,12 @@ public class MomentDetailActivity extends BaseActivity implements View.OnClickLi
         mCommentTV = fvb(R.id.tv_comment);
         mLikeTV = fvb(R.id.tv_like);
         mFavoriteTV = fvb(R.id.tv_favorite);
+
+        mHeadImageIV = fvb(R.id.iv_avatar);
+        mNickNameTV = fvb(R.id.tv_nickname);
+        mContentTV = fvb(R.id.tv_content);
+
+        mCLPanel = fvb(R.id.cl_panel);
     }
     protected void assembleViewClickAffairs(){
         mBackLL.setOnClickListener(this::onClick);
@@ -67,6 +77,9 @@ public class MomentDetailActivity extends BaseActivity implements View.OnClickLi
     protected void initDataAfterUiAffairs(){
         String initTitle = "1/" + mImageList.size();
         mTitleTV.setText(initTitle);
+        mHeadImageIV.setImageUrl(UrlConst.PICTURE_DOMAIN + mMoment.getAccountHeadImage());
+        mNickNameTV.setText(mMoment.getAccountName());
+        mContentTV.setText(mMoment.getContent());
         mViewPager.setAdapter(mViewAdapter = new ViewPagerAdapter(getApplicationContext()));
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -125,7 +138,7 @@ public class MomentDetailActivity extends BaseActivity implements View.OnClickLi
             mViewList.clear();
             for(String url:imageList) {
                 CachedImageView imageView = new CachedImageView(mContext);
-                imageView.setImageUrl(url);
+                imageView.setImageUrl(UrlConst.PICTURE_DOMAIN + url);
                 imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                 mViewList.add(imageView);
             }
@@ -141,6 +154,13 @@ public class MomentDetailActivity extends BaseActivity implements View.OnClickLi
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
             View view = mViewList.get(position);
+            view.setOnClickListener(view1 -> {
+                if(mCLPanel.getVisibility() == View.VISIBLE) {
+                    mCLPanel.setVisibility(View.INVISIBLE);
+                } else {
+                    mCLPanel.setVisibility(View.VISIBLE);
+                }
+            });
             container.addView(view);
             return view;
         }

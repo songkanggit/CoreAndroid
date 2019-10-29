@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.IdRes;
 import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.guohe.corecenter.R;
 import com.guohe.corecenter.core.CoreApplication;
@@ -108,6 +110,10 @@ public abstract class BaseActivity extends AppCompatActivity implements SwipeBac
     public void scrollToFinishActivity() {
         Utils.convertActivityToTranslucent(this);
         getSwipeBackLayout().scrollToFinishActivity();
+    }
+
+    protected void showToastMessage(@NonNull final String msg) {
+        runOnUiThread(() -> Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show());
     }
 
     protected void parseIntent(Intent intent){

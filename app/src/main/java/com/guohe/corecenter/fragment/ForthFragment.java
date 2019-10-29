@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -61,6 +62,8 @@ public class ForthFragment extends BaseFragment {
     LinearLayout mSunshineLL;
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
+    @BindView(R.id.tv_nickname)
+    TextView mNickNameTV;
 
     private OnFragmentInteraction mListener;
     private StaggeredGridLayoutManager mStaggeredGridLayoutManager;
@@ -108,6 +111,7 @@ public class ForthFragment extends BaseFragment {
             Account account = JacksonUtil.convertValue(preferencesManager.readObject(PreferenceConst.USER_INFO), Account.class);
             if(account != null) {
                 avatarCircleView.setImageUrl(UrlConst.PICTURE_DOMAIN + account.getHeadImage());
+                mNickNameTV.setText(account.getNickName());
                 mRecyclerView.setHasFixedSize(true);
                 mRecyclerView.setLayoutManager(mStaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
                 mRecyclerView.setAdapter(mTimeLineAdapter = new TimeLineAdapter(getActivity()));

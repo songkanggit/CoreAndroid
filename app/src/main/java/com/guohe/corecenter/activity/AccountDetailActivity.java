@@ -68,14 +68,14 @@ public class AccountDetailActivity extends BaseActivity implements View.OnClickL
         mBackLL = fvb(R.id.ll_back);
         mTitleTV = fvb(R.id.toolbar_title);
         mHeadImage = fvb(R.id.iv_head_image);
-        mNickNameTV = fvb(R.id.tv_nick_name);
+        mNickNameTV = fvb(R.id.tv_nickname);
         mTelephoneTV = fvb(R.id.tv_telephone);
         mFamilyTV = fvb(R.id.tv_family);
         mBabyTV = fvb(R.id.tv_baby);
         mLogoutTV = fvb(R.id.tv_logout);
 
         mHeadImageRL = fvb(R.id.rl_headimage);
-        mNickNameRL = fvb(R.id.rl_nick_name);
+        mNickNameRL = fvb(R.id.rl_nickname);
         mTelephoneRL = fvb(R.id.rl_telephone);
         mFaimlyRL = fvb(R.id.rl_family);
         mBabyRL = fvb(R.id.rl_baby);

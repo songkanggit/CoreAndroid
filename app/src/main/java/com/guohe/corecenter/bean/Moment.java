@@ -1,8 +1,11 @@
 package com.guohe.corecenter.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 
-public class Moment {
+public class Moment implements Parcelable {
     private String id;
     private String accountId;
     private String accountName;
@@ -11,6 +14,53 @@ public class Moment {
     private String[] imageList;
     private String likes;
     private Date createTime;
+
+    public static Creator<Moment> CREATOR = new ClassLoaderCreator<Moment>() {
+        @Override
+        public Moment createFromParcel(Parcel parcel, ClassLoader classLoader) {
+            return new Moment(parcel);
+        }
+
+        @Override
+        public Moment createFromParcel(Parcel parcel) {
+            return new Moment(parcel);
+        }
+
+        @Override
+        public Moment[] newArray(int i) {
+            return new Moment[i];
+        }
+    };
+
+    public Moment() { }
+
+    public Moment(Parcel parcel) {
+        id = parcel.readString();
+        accountId = parcel.readString();
+        accountName = parcel.readString();
+        accountHeadImage = parcel.readString();
+        content = parcel.readString();
+        imageList = parcel.createStringArray();
+        likes = parcel.readString();
+        createTime = (Date) parcel.readSerializable();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(id);
+        parcel.writeString(accountId);
+        parcel.writeString(accountName);
+        parcel.writeString(accountHeadImage);
+        parcel.writeString(content);
+        parcel.writeStringArray(imageList);
+        parcel.writeString(likes);
+        parcel.writeSerializable(createTime);
+    }
 
     public String getId() {
         return id;

@@ -41,6 +41,7 @@
                 android:layout_marginRight="10dp"
                 android:src="@mipmap/female_icn"/>
             <TextView
+                android:id="@+id/tv_nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"

@@ -182,7 +182,7 @@ public class PictureSelectActivity extends BaseActivity implements View.OnClickL
                     if(response.isSuccess()) {
                         PictureSelectActivity.this.finish();
                     } else {
-                        Toast.makeText(getApplicationContext(), response.getMsg(), Toast.LENGTH_SHORT).show();
+                        showToastMessage(response.getMsg());
                     }
                 });
             } catch (IOException e) {

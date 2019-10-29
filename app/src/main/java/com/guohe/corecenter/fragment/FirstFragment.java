@@ -129,6 +129,12 @@ public class FirstFragment extends BaseFragment implements FragmentActivityInter
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mTwinklingRefreshLayout.startRefresh();
+    }
+
     @OnClick({R.id.iv_scan, R.id.iv_group})
     public void onButtonPressed(View view) {
         if (mListener != null) {
@@ -249,6 +255,7 @@ public class FirstFragment extends BaseFragment implements FragmentActivityInter
             holder.countTV.setText(moment.getLikes());
             holder.itemView.setOnClickListener(view -> {
                 Intent intent = new Intent(mContext, MomentDetailActivity.class);
+                intent.putExtra("data", moment);
                 mContext.startActivity(intent);
             });
         }
@@ -268,7 +275,7 @@ public class FirstFragment extends BaseFragment implements FragmentActivityInter
             posterIv = itemView.findViewById(R.id.iv_image);
             contentTV = itemView.findViewById(R.id.tv_content);
             headImageIV = itemView.findViewById(R.id.iv_head_image);
-            nickNameTV = itemView.findViewById(R.id.tv_nick_name);
+            nickNameTV = itemView.findViewById(R.id.tv_nickname);
             countTV = itemView.findViewById(R.id.tv_count);
         }
     }

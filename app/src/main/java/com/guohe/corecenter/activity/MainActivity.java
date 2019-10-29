@@ -13,7 +13,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.guohe.corecenter.R;
 import com.guohe.corecenter.bean.HttpResponse;
@@ -82,7 +81,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     protected void initDataAfterUiAffairs(){
         setSwipeBackEnable(false);
         toggleFragment(0);
-        requestMomentList((FirstFragment)mFragmentList.get(0));
     }
 
     @Override
@@ -213,7 +211,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     if(validDate.after(new Date())) {
                         return false;
                     } else {
-                        Toast.makeText(getApplicationContext(), "登陆已过期过期", Toast.LENGTH_SHORT).show();
+                        showToastMessage("登陆已过期过期");
                         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                         startActivity(intent);
                     }
@@ -236,10 +234,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 if(response.isSuccess()) {
                     dataList.addAll((List<Object>) response.getData());
                 } else {
-                    Toast.makeText(getApplicationContext(), response.getMsg(), Toast.LENGTH_SHORT).show();
+                    showToastMessage(response.getMsg());
                 }
             } catch (IOException e) {
-                Toast.makeText(getApplicationContext(), "网络请求错误", Toast.LENGTH_SHORT).show();
+                showToastMessage("网络请求错误");
                 e.printStackTrace();
             }
             callBack.onDataUpdate(dataList);
