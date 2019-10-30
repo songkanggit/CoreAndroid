@@ -99,6 +99,21 @@ public class ForthFragment extends BaseFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        try {
+            PreferencesManager preferencesManager = ((MainActivity)getActivity()).getPreferencesManager();
+            Account account = JacksonUtil.convertValue(preferencesManager.readObject(PreferenceConst.USER_INFO), Account.class);
+            if(account != null) {
+                avatarCircleView.setImageUrl(UrlConst.PICTURE_DOMAIN + account.getHeadImage());
+                mNickNameTV.setText(account.getNickName());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     protected int getLayoutResourceID() {
         return R.layout.fragment_forth;
     }
@@ -106,31 +121,21 @@ public class ForthFragment extends BaseFragment {
     @Override
     protected void setUpView() {
         ImmersionBar.with(this).statusBarColor(R.color.colorTransparent).statusBarDarkFont(true).fitsSystemWindows(true).init();
-        PreferencesManager preferencesManager = ((MainActivity)getActivity()).getPreferencesManager();
-        try {
-            Account account = JacksonUtil.convertValue(preferencesManager.readObject(PreferenceConst.USER_INFO), Account.class);
-            if(account != null) {
-                avatarCircleView.setImageUrl(UrlConst.PICTURE_DOMAIN + account.getHeadImage());
-                mNickNameTV.setText(account.getNickName());
-                mRecyclerView.setHasFixedSize(true);
-                mRecyclerView.setLayoutManager(mStaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-                mRecyclerView.setAdapter(mTimeLineAdapter = new TimeLineAdapter(getActivity()));
-                mRecyclerView.addItemDecoration(new SpaceItemDecoration(30));
-                List<String> dataList = new ArrayList<>();
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(mStaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        mRecyclerView.setAdapter(mTimeLineAdapter = new TimeLineAdapter(getActivity()));
+        mRecyclerView.addItemDecoration(new SpaceItemDecoration(30));
+        List<String> dataList = new ArrayList<>();
 
-                dataList.add(UrlConst.PICTURE_DOMAIN + "a857ef20cc4c407bac90d6406df59bce.jpg");
-                dataList.add(UrlConst.PICTURE_DOMAIN + "a857ef20cc4c407bac90d6406df59bce.jpg");
-                dataList.add(UrlConst.PICTURE_DOMAIN + "a857ef20cc4c407bac90d6406df59bce.jpg");
-                dataList.add(UrlConst.PICTURE_DOMAIN + "a857ef20cc4c407bac90d6406df59bce.jpg");
-                dataList.add(UrlConst.PICTURE_DOMAIN + "a857ef20cc4c407bac90d6406df59bce.jpg");
-                dataList.add(UrlConst.PICTURE_DOMAIN + "a857ef20cc4c407bac90d6406df59bce.jpg");
-                dataList.add(UrlConst.PICTURE_DOMAIN + "a857ef20cc4c407bac90d6406df59bce.jpg");
-                dataList.add(UrlConst.PICTURE_DOMAIN + "a857ef20cc4c407bac90d6406df59bce.jpg");
-                mTimeLineAdapter.setData(dataList);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        dataList.add(UrlConst.PICTURE_DOMAIN + "a857ef20cc4c407bac90d6406df59bce.jpg");
+        dataList.add(UrlConst.PICTURE_DOMAIN + "a857ef20cc4c407bac90d6406df59bce.jpg");
+        dataList.add(UrlConst.PICTURE_DOMAIN + "a857ef20cc4c407bac90d6406df59bce.jpg");
+        dataList.add(UrlConst.PICTURE_DOMAIN + "a857ef20cc4c407bac90d6406df59bce.jpg");
+        dataList.add(UrlConst.PICTURE_DOMAIN + "a857ef20cc4c407bac90d6406df59bce.jpg");
+        dataList.add(UrlConst.PICTURE_DOMAIN + "a857ef20cc4c407bac90d6406df59bce.jpg");
+        dataList.add(UrlConst.PICTURE_DOMAIN + "a857ef20cc4c407bac90d6406df59bce.jpg");
+        dataList.add(UrlConst.PICTURE_DOMAIN + "a857ef20cc4c407bac90d6406df59bce.jpg");
+        mTimeLineAdapter.setData(dataList);
     }
 
     @Override

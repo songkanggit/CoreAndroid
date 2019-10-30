@@ -2,6 +2,7 @@ package com.guohe.corecenter.activity;
 
 import androidx.annotation.LayoutRes;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.guohe.corecenter.R;
 
 public class CommonEditActivity extends BaseActivity implements View.OnClickListener {
+    public static final int RESULT_CODE = 100;
 
     private EditText mEditText;
     private LinearLayout mBackLL;
@@ -54,6 +56,9 @@ public class CommonEditActivity extends BaseActivity implements View.OnClickList
                 break;
             }
             case R.id.toolbar_menu: {
+                Intent intent = new Intent();
+                intent.putExtra("data", mEditText.getText().toString());
+                setResult(RESULT_CODE, intent);
                 finish();
             }
         }

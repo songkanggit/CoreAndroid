@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class AccountDetailActivity extends BaseActivity implements View.OnClickListener {
+    public static final int EDIT_REQUEST_CODE = 99;
     private LinearLayout mBackLL;
     private TextView mTitleTV, mNickNameTV, mTelephoneTV, mFamilyTV, mBabyTV, mLogoutTV;
     private RelativeLayout mNickNameRL, mHeadImageRL, mTelephoneRL, mFaimlyRL, mBabyRL;
@@ -129,7 +130,7 @@ public class AccountDetailActivity extends BaseActivity implements View.OnClickL
                 Intent intent = new Intent(AccountDetailActivity.this, CommonEditActivity.class);
                 intent.putExtra("title", "修改昵称");
                 intent.putExtra("hint", "请输入昵称");
-                startActivity(intent);
+                startActivityForResult(intent, EDIT_REQUEST_CODE);
                 break;
             }
         }
@@ -152,6 +153,14 @@ public class AccountDetailActivity extends BaseActivity implements View.OnClickL
                     mHeadImage.setImageBitmap(BitmapFactory.decodeFile(selectList.get(0).getCompressPath()));
                     uploadImage(selectList.get(0).getCompressPath());
                     break;
+                }
+            }
+        } else if (requestCode == EDIT_REQUEST_CODE) {
+            if(resultCode == CommonEditActivity.RESULT_CODE) {
+                final String afterValue = data.getStringExtra("data");
+                if(!TextUtils.isEmpty(afterValue)) {
+                    mNickNameTV.setText(afterValue);
+                    updateInfo(afterValue, null);
                 }
             }
         }
