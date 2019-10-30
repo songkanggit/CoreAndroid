@@ -26,10 +26,20 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.CommonEditActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".activity.PictureSelectActivity"
-            android:launchMode="singleTop"/>
+        <activity android:name=".activity.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.CommonEditActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.PictureSelectActivity"
+            android:launchMode="singleTop" />
         <activity
             android:name=".activity.FollowerListActivity"
             android:launchMode="singleTop" />
@@ -76,13 +86,9 @@
             android:name=".activity.CaptureActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
+        <activity android:name=".activity.MainActivity"
+            android:launchMode="singleTop">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

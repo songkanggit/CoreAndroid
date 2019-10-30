@@ -26,14 +26,11 @@ import com.guohe.corecenter.fragment.ForthFragment;
 import com.guohe.corecenter.fragment.FragmentActivityInterface;
 import com.guohe.corecenter.fragment.SecondFragment;
 import com.guohe.corecenter.fragment.ThirdFragment;
-import com.guohe.corecenter.utils.DateTimeUtil;
 import com.guohe.corecenter.utils.JacksonUtil;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
@@ -199,26 +196,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     private boolean loginInterception() {
-        if(!isNeedLogin) {
-            return false;
-        }
         final String accessToken = mPreferencesManager.get("AccessToken", "");
-        if(!TextUtils.isEmpty(accessToken)) {
-            final String loginTime = mPreferencesManager.get("LoginTime", "");
-            if(!TextUtils.isEmpty(loginTime)) {
-                try {
-                    Date validDate = DateTimeUtil.YYYY_MM_DD_HH_MM_SS.parse(loginTime);
-                    if(validDate.after(new Date())) {
-                        return false;
-                    } else {
-                        showToastMessage("登陆已过期过期");
-                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                    }
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            }
+        if(!isNeedLogin || !TextUtils.isEmpty(accessToken)) {
+            return false;
         }
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
@@ -267,6 +247,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void onRefresh(TwinklingRefreshLayout refreshLayout) {
+        mCoreContext.executeAsyncTask(() -> {
+            try {
+                RequestParam requestParam = RequestParam.newInstance(mPreferencesManager);
+                HttpResponse response = JacksonUtil.readValue(mHttpService.post(UrlConst.CHECK_TOKEN_URL, requestParam.toString()), HttpResponse.class);
+                if(!response.isSuccess()) {
+                    showToastMessage("登陆已过期");
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
         requestMomentList((FirstFragment)mFragmentList.get(0));
     }
 

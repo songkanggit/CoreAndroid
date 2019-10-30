@@ -19,6 +19,7 @@
         android:id="@+id/cl_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         android:background="#cc282828">
         <com.guohe.corecenter.view.AvatarCircleView
