@@ -7,7 +7,7 @@
     <com.guohe.corecenter.view.CachedImageView
         android:id="@+id/iv_image"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="110dp"
         android:scaleType="fitXY"
         android:src="@mipmap/ic_launcher"
         app:layout_constraintHeight_percent="100"

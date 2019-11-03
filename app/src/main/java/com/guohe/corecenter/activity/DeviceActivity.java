@@ -20,8 +20,13 @@ import android.widget.TextView;
 import com.guohe.corecenter.R;
 import com.guohe.corecenter.constant.UrlConst;
 import com.guohe.corecenter.view.CachedImageView;
+import com.gyf.immersionbar.ImmersionBar;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
 
 import org.intellij.lang.annotations.MagicConstant;
 
@@ -71,6 +76,7 @@ public class DeviceActivity extends BaseActivity implements View.OnClickListener
     @LayoutRes
     protected int getLayoutResourceId() { return R.layout.activity_device;}
     protected void viewAffairs(){
+        ImmersionBar.with(this).statusBarDarkFont(true, 0.5f).fitsSystemWindows(true).init();
         mBackLL = fvb(R.id.ll_back);
         mTitleTV = fvb(R.id.toolbar_title);
         mMenuIV = fvb(R.id.toolbar_menu);
@@ -157,6 +163,11 @@ public class DeviceActivity extends BaseActivity implements View.OnClickListener
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_local_gallery: {
+                PictureSelector.create(DeviceActivity.this)
+                        .openGallery(PictureMimeType.ofImage())
+                        .compress(true)
+                        .maxSelectNum(9)
+                        .forResult(PictureConfig.CHOOSE_REQUEST);
                 break;
             }
             case R.id.ll_control_camera: {
@@ -175,6 +186,26 @@ public class DeviceActivity extends BaseActivity implements View.OnClickListener
                 Intent intent = new Intent(DeviceActivity.this, DeviceInfoActivity.class);
                 startActivity(intent);
                 break;
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case PictureConfig.CHOOSE_REQUEST: {
+                    //reference: https://github.com/LuckSiege/PictureSelector
+                    // 图片、视频、音频选择结果回调
+                    List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
+                    // 例如 LocalMedia 里面返回三种path
+                    // 1.media.getPath(); 为原图path
+                    // 2.media.getCutPath();为裁剪后path，需判断media.isCut();是否为true  注意：音视频除外
+                    // 3.media.getCompressPath();为压缩后path，需判断media.isCompressed();是否为true  注意：音视频除外
+                    // 如果裁剪并压缩了，以取压缩路径为准，因为是先裁剪后压缩的
+                    break;
+                }
             }
         }
     }

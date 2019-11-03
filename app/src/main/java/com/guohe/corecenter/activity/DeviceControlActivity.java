@@ -116,7 +116,7 @@ public class DeviceControlActivity extends BaseActivity implements OnNotifyListe
     @LayoutRes
     protected int getLayoutResourceId() { return R.layout.activity_device_control;}
     protected void viewAffairs(){
-        ImmersionBar.with(this).statusBarColor(R.color.colorPrimary).statusBarDarkFont(true).fitsSystemWindows(true).init();
+        ImmersionBar.with(this).statusBarColor(R.color.smssdk_black).statusBarDarkFont(true).fitsSystemWindows(true).init();
         mVideoView = fvb(R.id.video_view);
         mBackLL = fvb(R.id.ll_back);
         mTitleTV = fvb(R.id.toolbar_title);
